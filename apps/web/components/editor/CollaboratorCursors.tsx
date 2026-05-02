@@ -1,6 +1,7 @@
 'use client'
 
 import { useReactFlow } from '@xyflow/react'
+import { motion } from 'framer-motion'
 import type { CursorState } from '@/hooks/useCollaboratorCursors'
 
 interface CollaboratorCursorsProps {
@@ -17,17 +18,17 @@ export function CollaboratorCursors({ cursors }: CollaboratorCursorsProps) {
         const screenPos = flowToScreenPosition({ x: cursor.x, y: cursor.y })
 
         return (
-          <div
+          <motion.div
             key={cursor.userId}
+            animate={{ x: screenPos.x - 2, y: screenPos.y - 2 }}
+            transition={{ type: 'spring', stiffness: 500, damping: 40, mass: 0.5 }}
             style={{
               position: 'fixed',
-              left: screenPos.x,
-              top: screenPos.y,
+              top: 0,
+              left: 0,
               zIndex: 9999,
               pointerEvents: 'none',
-              transform: 'translate(-2px, -2px)', // Ajuste fino del pico del cursor
             }}
-            className="transition-transform duration-75 ease-linear"
           >
             <svg width="16" height="24" viewBox="0 0 16 24" fill="none" xmlns="http://www.w3.org/2000/svg">
               <path 
@@ -46,7 +47,7 @@ export function CollaboratorCursors({ cursors }: CollaboratorCursorsProps) {
             >
               {cursor.name}
             </span>
-          </div>
+          </motion.div>
         )
       })}
     </>

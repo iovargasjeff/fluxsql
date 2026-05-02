@@ -4,7 +4,7 @@
 > Sirve como memoria del proyecto: qué se hizo, qué decisiones se tomaron, qué hay que tener en cuenta.
 
 **Última actualización:** 2026-05-02
-**Issues completadas:** 36 / 38
+**Issues completadas:** 37 / 38
 
 ***
 
@@ -15,7 +15,7 @@
 | v0.1 — Setup Base | #1 al #8 | 8/8 | ✅ Completado |
 | v0.2 — Canvas + Editor | #9 al #18 | 10/10 | ✅ Completado |
 | v0.3 — Realtime + Versiones | #19 al #25 | 7/7 | ✅ Completado |
-| v0.4 — UI/UX Polish | #26 al #38 | 11/13 | 🔄 En progreso |
+| v0.4 — UI/UX Polish | #26 al #38 | 12/13 | 🔄 En progreso |
 
 ***
 
@@ -510,8 +510,20 @@
 - ✅ Validar APIs del navegador (`localStorage`) siempre utilizando bloques `try/catch`, esto con el fin de evitar un quiebre de la renderización en el Client Component por bloqueos de privacidad configurados en los agentes de usuario.
 - ✅ Los overlays inmersivos (`fixed inset-0`) deben usar `pointer-events-none` en el contenedor de los nodos transparentes y habilitarlos devuelta (`pointer-events-auto`) únicamente para la caja interactiva asegurando que el cierre clickeando en el espacio ciego sí funcione.
 
-### ⬜ Issue #37 — Animaciones con Framer Motion
-**Branch:** `feat/issue-37-animations` | **Completada:** —
+### ✅ Issue #37 — Animaciones con Framer Motion
+**Branch:** `feat/issue-37-animations`
+**Completada:** 2026-05-02
+
+**Lo que se hizo:**
+- Instalado `framer-motion` en el package `web`.
+- Añadida animación `scale + fade` (con efecto `spring`) a `CommitModal.tsx` y `InviteCollaboratorModal.tsx` inyectando `motion.div` como contenedor interno al dialog.
+- Añadida animación `slide + fade` al sheet `VersionHistorySheet.tsx`.
+- Creado `ProtectedLayout` en `app/(protected)/layout.tsx` incorporando un componente global con `AnimatePresence` basado en el `pathname` para originar desvanecimientos fluidos entre las páginas de la aplicación.
+- Configurada una transición animada ininterrumpida a través de `spring` mechanics para interpolar localizaciones de `CollaboratorCursors` que logran movimiento suavizado prescindiendo de los saltos perceptibles del socket.
+
+**Notas importantes para el futuro:**
+- ✅ El modal `DialogContent` no debe sustituirse por un `motion.div` puesto que causará que Radix UI rechace las animaciones, la forma segura es colocar `motion.div` como contenedor único por debajo.
+- ✅ Cuando animes ubicaciones dinámicas calculadas por cursor como con x/y en CSS absolute position, define el div ancla padre en posición 0,0 (top 0, left 0) y delega únicamente los keyframes x/y a Framer Motion para asegurar que opere a través de GPUs con el parámetro nativo `transform`.
 
 ### ⬜ Issue #38 — SonarQube workflow + Quality Gate
 **Branch:** `feat/issue-38-sonarqube` | **Completada:** —
