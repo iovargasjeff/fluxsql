@@ -29,7 +29,9 @@ export function CommitModal({ projectId }: CommitModalProps) {
     setLoading(true)
     
     // Obtener snapshot del estado actual del canvas
-    const flowJson = toObject()
+    const rawFlow = toObject()
+    // ✅ Serializar y deserializar para limpiar referencias circulares
+    const flowJson = JSON.parse(JSON.stringify(rawFlow))
     
     const result = await createVersionAction(projectId, flowJson, sqlValue, message.trim())
     
