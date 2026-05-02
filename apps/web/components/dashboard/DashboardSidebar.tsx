@@ -2,8 +2,9 @@
 
 import Link from 'next/link';
 import { usePathname, useSearchParams } from 'next/navigation';
-import { Home, Clock, Users, Trash2, History, LogOut } from 'lucide-react';
+import { Home, Clock, Users, Trash2, History, LogOut, Settings } from 'lucide-react';
 import { logoutAction } from '@/actions/auth/logout';
+import { getInitials, getAvatarColor } from '@/lib/utils/avatar';
 
 const NAV_ITEMS = [
   { icon: Home, label: 'Proyectos', href: '/dashboard' },
@@ -13,25 +14,13 @@ const NAV_ITEMS = [
   { icon: History, label: 'Historial', href: '/dashboard?section=historial' }
 ];
 
-function getInitials(name: string) {
-  const words = name.trim().split(/\s+/);
-  if (words.length >= 2) {
-    return (words[0][0] + words[1][0]).toUpperCase();
-  }
-  return name.substring(0, 2).toUpperCase();
+interface DashboardSidebarProps {
+  userName: string
+  userEmail?: string
+  userAvatarUrl?: string | null
 }
 
-function getAvatarColor(name: string) {
-  const colors = ['#1A6CF6', '#10B981', '#8B5CF6', '#F59E0B', '#EF4444', '#06B6D4'];
-  let hash = 0;
-  for (let i = 0; i < name.length; i++) {
-    hash = name.charCodeAt(i) + ((hash << 5) - hash);
-  }
-  const index = Math.abs(hash) % colors.length;
-  return colors[index];
-}
-
-export function DashboardSidebar({ userName, userEmail }: { userName: string, userEmail?: string }) {
+export function DashboardSidebar({ userName, userEmail, userAvatarUrl }: DashboardSidebarProps) {
   const pathname = usePathname();
   const searchParams = useSearchParams();
   const currentSection = searchParams.get('section');
@@ -77,15 +66,32 @@ export function DashboardSidebar({ userName, userEmail }: { userName: string, us
       {/* Usuario en la parte inferior */}
       <div className="px-3 py-4" style={{ borderTop: '1px solid #1E2A45' }}>
         <div className="flex items-center gap-2.5 mb-3 px-1">
-          <div className="w-8 h-8 rounded-full flex items-center justify-center flex-shrink-0 text-white text-xs font-bold"
-            style={{ backgroundColor: getAvatarColor(userName) }}>
-            {getInitials(userName)}
-          </div>
+          {userAvatarUrl ? (
+            <img
+              src={userAvatarUrl}
+              alt={userName}
+              className="w-8 h-8 rounded-full object-cover flex-shrink-0"
+              style={{ border: '2px solid #1E2A45' }}
+            />
+          ) : (
+            <div className="w-8 h-8 rounded-full flex items-center justify-center flex-shrink-0 text-white text-xs font-bold"
+              style={{ backgroundColor: getAvatarColor(userName) }}>
+              {getInitials(userName)}
+            </div>
+          )}
           <div className="min-w-0">
             <p className="text-sm text-white font-medium truncate">{userName}</p>
             {userEmail && <p className="text-xs truncate" style={{ color: '#6B7280' }}>{userEmail}</p>}
           </div>
         </div>
+        <Link
+          href="/profile"
+          className="flex items-center gap-2 text-xs w-full px-3 py-2 rounded-lg transition-colors hover:text-white mb-1"
+          style={{ color: '#6B7280' }}
+        >
+          <Settings size={14} />
+          Configuración
+        </Link>
         <form action={logoutAction}>
           <button type="submit"
             className="flex items-center gap-2 text-xs w-full px-3 py-2 rounded-lg transition-colors hover:text-white"

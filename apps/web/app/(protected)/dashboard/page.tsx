@@ -17,12 +17,12 @@ export default async function DashboardPage() {
   // Fetch dbUser id for ownership comparison
   let dbUserId = ''
   let userName = user?.email ?? 'Usuario'
+  let userAvatarUrl: string | null = null
   if (user) {
-    const [dbUser] = await db.select({ id: users.id, name: users.name }).from(users).where(eq(users.authId, user.id)).limit(1)
+    const [dbUser] = await db.select({ id: users.id, name: users.name, avatarUrl: users.avatarUrl }).from(users).where(eq(users.authId, user.id)).limit(1)
     dbUserId = dbUser?.id ?? ''
-    if (dbUser?.name) {
-      userName = dbUser.name
-    }
+    if (dbUser?.name) userName = dbUser.name
+    if (dbUser?.avatarUrl) userAvatarUrl = dbUser.avatarUrl
   }
 
   const projects = await getProjectsByUser()
@@ -32,7 +32,8 @@ export default async function DashboardPage() {
       <Suspense fallback={<div className="hidden lg:block w-[220px] flex-shrink-0" />}>
         <DashboardSidebar 
           userName={userName} 
-          userEmail={user?.email} 
+          userEmail={user?.email}
+          userAvatarUrl={userAvatarUrl}
         />
       </Suspense>
       <main className="flex-1 overflow-auto">
