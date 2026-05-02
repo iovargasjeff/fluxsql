@@ -18,11 +18,13 @@ export default async function DashboardPage() {
   let dbUserId = ''
   let userName = user?.email ?? 'Usuario'
   let userAvatarUrl: string | null = null
+  let currentUser: { id: string; name: string } | null = null
   if (user) {
     const [dbUser] = await db.select({ id: users.id, name: users.name, avatarUrl: users.avatarUrl }).from(users).where(eq(users.authId, user.id)).limit(1)
     dbUserId = dbUser?.id ?? ''
     if (dbUser?.name) userName = dbUser.name
     if (dbUser?.avatarUrl) userAvatarUrl = dbUser.avatarUrl
+    if (dbUser) currentUser = { id: dbUser.id, name: dbUser.name ?? userName }
   }
 
   const projects = await getProjectsByUser()
@@ -55,7 +57,7 @@ export default async function DashboardPage() {
         </header>
 
         <div className="container mx-auto px-4 py-10 max-w-6xl">
-          <DashboardClient projects={projects} currentUserId={dbUserId} />
+          <DashboardClient projects={projects} currentUserId={dbUserId} currentUser={currentUser} />
         </div>
       </main>
     </div>

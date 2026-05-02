@@ -5,6 +5,7 @@ import { InviteCollaboratorModal } from './InviteCollaboratorModal'
 import { Crown, Edit3 } from 'lucide-react'
 import { getRelativeDate } from '@/lib/relativeDate'
 import { getTagColor } from '@/components/ui/TagInput'
+import { PresenceDot } from './PresenceDot'
 
 const GRADIENTS = [
   'from-blue-500/20 via-transparent to-purple-500/20',
@@ -38,6 +39,7 @@ interface ProjectCardProps {
   isOwner?: boolean
   members: { id: string; name: string }[]
   tags?: string[]
+  currentUser?: { id: string; name: string } | null
 }
 
 function getAvatarColor(name: string): string {
@@ -91,7 +93,7 @@ function CollaboratorAvatars({ members }: { members: { id: string, name: string 
   )
 }
 
-export function ProjectCard({ project, role, isOwner = false, members, tags }: ProjectCardProps) {
+export function ProjectCard({ project, role, isOwner = false, members, tags, currentUser }: ProjectCardProps) {
   return (
     <Link href={`/editor/${project.id}`} className="block h-full">
       <Card className="h-full flex flex-col bg-[#111827] border-[#1E2A45] text-[#E2E8F0] hover:border-[#1A6CF6] hover:shadow-lg hover:shadow-[#1A6CF6]/10 transition-all duration-200 group cursor-pointer hover:-translate-y-1 overflow-hidden">
@@ -166,7 +168,10 @@ export function ProjectCard({ project, role, isOwner = false, members, tags }: P
         <CardFooter className="pt-3 mt-auto w-full">
           <div className="flex items-center justify-between mt-3 pt-3 w-full"
                style={{ borderTop: '1px solid #1E2A45' }}>
-            <CollaboratorAvatars members={members ?? []} />
+            <div className="flex items-center gap-2">
+              <CollaboratorAvatars members={members ?? []} />
+              <PresenceDot projectId={project.id} currentUser={currentUser ?? null} />
+            </div>
             <span className="text-xs" style={{ color: '#6B7280' }}>
               Actualizado {getRelativeDate(project.updatedAt ?? project.createdAt)}
             </span>

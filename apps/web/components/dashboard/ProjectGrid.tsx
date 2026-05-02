@@ -19,10 +19,11 @@ interface ProjectData {
 interface ProjectGridProps {
   projects: ProjectData[]
   currentUserId: string
+  currentUser?: { id: string; name: string } | null
   onCreateProject?: () => void
 }
 
-export function ProjectGrid({ projects, currentUserId, onCreateProject }: ProjectGridProps) {
+export function ProjectGrid({ projects, currentUserId, currentUser, onCreateProject }: ProjectGridProps) {
   if (projects.length === 0) {
     return (
       <div className="space-y-6">
@@ -56,6 +57,7 @@ export function ProjectGrid({ projects, currentUserId, onCreateProject }: Projec
             isOwner={project.ownerId === currentUserId}
             members={members ?? []}
             tags={project.tags ?? []}
+            currentUser={currentUser}
           />
         ))}
         

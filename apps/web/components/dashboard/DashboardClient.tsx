@@ -22,9 +22,10 @@ interface ProjectItem {
 interface DashboardClientProps {
   projects: ProjectItem[]
   currentUserId: string
+  currentUser?: { id: string; name: string } | null
 }
 
-export function DashboardClient({ projects, currentUserId }: DashboardClientProps) {
+export function DashboardClient({ projects, currentUserId, currentUser }: DashboardClientProps) {
   const [query, setQuery] = useState('')
   const [viewMode, setViewMode] = useState<'grid' | 'list'>('grid')
 
@@ -137,6 +138,7 @@ export function DashboardClient({ projects, currentUserId }: DashboardClientProp
         <ProjectGrid
           projects={filtered}
           currentUserId={currentUserId}
+          currentUser={currentUser}
           onCreateProject={() => document.getElementById('create-project-btn')?.click()}
         />
       ) : (
