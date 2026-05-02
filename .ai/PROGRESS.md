@@ -4,7 +4,7 @@
 > Sirve como memoria del proyecto: qué se hizo, qué decisiones se tomaron, qué hay que tener en cuenta.
 
 **Última actualización:** 2026-05-02
-**Issues completadas:** 8 / 38
+**Issues completadas:** 9 / 38
 
 ***
 
@@ -13,7 +13,7 @@
 | Milestone | Issues | Completadas | Estado |
 |---|---|---|---|
 | v0.1 — Setup Base | #1 al #8 | 8/8 | ✅ Completado |
-| v0.2 — Canvas + Editor | #9 al #18 | 0/10 | ⬜ Pendiente |
+| v0.2 — Canvas + Editor | #9 al #18 | 1/10 | 🔄 En progreso |
 | v0.3 — Realtime + Versiones | #19 al #28 | 0/10 | ⬜ Pendiente |
 | v0.4 — UI/UX Polish | #29 al #38 | 0/10 | ⬜ Pendiente |
 
@@ -169,8 +169,23 @@
 
 ## Milestone v0.2 — Canvas + Editor
 
-### ⬜ Issue #9 — Canvas React Flow con nodos arrastrables
-**Branch:** `feat/issue-9-react-flow-canvas` | **Completada:** —
+### ✅ Issue #9 — Canvas React Flow con Nodos Arrastrables
+**Branch:** `feat/issue-9-react-flow-canvas`
+**Completada:** 2026-05-02
+
+**Lo que se hizo:**
+- Instaladas las dependencias `@xyflow/react` y `zustand` en el paquete `web`.
+- Creado el store Zustand en `store/useEditorStore.ts` con `nodes`, `edges`, `onNodesChange`, `onEdgesChange`, `setNodesAndEdges`, `sqlValue` y `setSqlValue`.
+- Implementado el nodo custom `TableNode.tsx` con header azul `#1A6CF6`, filas por columna con badges PK/FK, handles de entrada (izquierda) y salida (derecha) por columna usando `@xyflow/react`.
+- Creado `Canvas.tsx` con `nodeTypes` definido fuera del componente, `Background dots`, `Controls`, `deleteKeyCode={null}` y datos demo para 2 tablas con 1 edge.
+- Creado `EditorLayout.tsx` con CSS Grid split 40/60 (panel SQL placeholder | canvas).
+- Creada la ruta protegida `app/(protected)/editor/[projectId]/page.tsx` como Server Component que valida el acceso del usuario via JOIN `projects ⟶ collaborators`.
+- `pnpm build` pasa limpio con la nueva ruta `/editor/[projectId]` marcada como `ƒ (Dynamic)`.
+
+**Notas importantes para el futuro:**
+- ✅ `nodeTypes` SIEMPRE debe definirse a nivel de módulo (fuera del componente). Definirlo dentro destruye la referencia en cada re-render y ReactFlow no puede reconciliar los nodos correctamente.
+- ✅ El contenedor padre del `<ReactFlow>` necesita height explícita: usar `h-full` con ancestro `h-screen` o `flex-1 min-h-0`.
+- ✅ `@xyflow/react/dist/style.css` se importa en `Canvas.tsx` — sin este import los handles y controles no se renderizan.
 
 ### ⬜ Issue #10 — Nodos de tabla personalizados (columnas, tipos, PK/FK)
 **Branch:** `feat/issue-10-custom-nodes` | **Completada:** —
