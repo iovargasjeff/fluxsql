@@ -4,7 +4,7 @@
 > Sirve como memoria del proyecto: qué se hizo, qué decisiones se tomaron, qué hay que tener en cuenta.
 
 **Última actualización:** 2026-05-02
-**Issues completadas:** 5 / 38
+**Issues completadas:** 6 / 38
 
 ***
 
@@ -12,7 +12,7 @@
 
 | Milestone | Issues | Completadas | Estado |
 |---|---|---|---|
-| v0.1 — Setup Base | #1 al #8 | 5/8 | 🔄 En progreso |
+| v0.1 — Setup Base | #1 al #8 | 6/8 | 🔄 En progreso |
 | v0.2 — Canvas + Editor | #9 al #18 | 0/10 | ⬜ Pendiente |
 | v0.3 — Realtime + Versiones | #19 al #28 | 0/10 | ⬜ Pendiente |
 | v0.4 — UI/UX Polish | #29 al #38 | 0/10 | ⬜ Pendiente |
@@ -116,14 +116,21 @@
 
 ***
 
-### ⬜ Issue #6 — Parser SQL PostgreSQL → Nodos React Flow
+### ✅ Issue #6 — Parser SQL PostgreSQL → Nodos React Flow
 **Branch:** `feat/issue-6-parser-postgresql`
-**Completada:** —
+**Completada:** 2026-05-02
 
-**Criterios pendientes:**
-- [ ] Función `parseSQL(ddl, 'postgresql')` en `@fluxsql/parsers`
-- [ ] Detecta tablas, columnas, tipos, PKs
-- [ ] Detecta FKs (REFERENCES) y genera edges
+**Lo que se hizo:**
+- Creado el paquete `@fluxsql/parsers` dentro del monorepo (`packages/parsers`).
+- Definidos los contratos de tipos en `src/types.ts` (`ParseResult`, `FlowNode`, `FlowEdge`, etc.).
+- Implementado el motor de layout automático en `src/utils/layout.ts` usando un algoritmo de grid.
+- Implementado el parser puramente síncrono `parsePostgreSQL` en `src/dialects/postgresql.ts` usando regex robustos para extraer sentencias `CREATE TABLE`, PKs locales o foráneas, relaciones `REFERENCES` (foreign keys) y sus columnas.
+- Expuesta la función pública `parseSQL(ddl, dialect)` en `src/index.ts` con manejo envolvente en `try/catch` para impedir throw de errores, agrupándolos siempre en el array `errors[]`.
+
+**Notas importantes para el futuro:**
+- ✅ El motor de parseo es intencionalmente `agnóstico` a React. No contiene imports de Next.js ni de Browser APIs, garantizando compatibilidad en cualquier entorno (cliente o servidor) y facilitando pruebas unitarias de TS estándar.
+- ✅ Los IDs de los React Flow Nodes son siempre el nombre de la tabla en minúscula.
+- ✅ Las FKs generan automáticamente edges estilo `smoothstep` apuntando con los IDs `fk-{tablaOrigen}-{tablaDestino}`.
 
 ***
 
