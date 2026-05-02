@@ -4,7 +4,7 @@
 > Sirve como memoria del proyecto: qué se hizo, qué decisiones se tomaron, qué hay que tener en cuenta.
 
 **Última actualización:** 2026-05-02
-**Issues completadas:** 28 / 38
+**Issues completadas:** 29 / 38
 
 ***
 
@@ -15,7 +15,7 @@
 | v0.1 — Setup Base | #1 al #8 | 8/8 | ✅ Completado |
 | v0.2 — Canvas + Editor | #9 al #18 | 10/10 | ✅ Completado |
 | v0.3 — Realtime + Versiones | #19 al #25 | 7/7 | ✅ Completado |
-| v0.4 — UI/UX Polish | #26 al #38 | 3/10 | 🔄 En progreso |
+| v0.4 — UI/UX Polish | #26 al #38 | 4/10 | 🔄 En progreso |
 
 ***
 
@@ -415,12 +415,17 @@
 - Añadido workflow `.github/workflows/e2e.yml` con build, arranque de la app en background y `wait-on` antes de ejecutar los tests.
 - Añadido `.playwright/`, `playwright-report/` y `test-results/` al `.gitignore` raíz.
 
-***
+### ✅ Issue #29 — Landing page: hero section con demo animada
+**Branch:** `feat/issue-29-landing-hero`
+**Completada:** 2026-05-02
 
-## Milestone v0.4 — UI/UX Polish
-
-### ⬜ Issue #29 — Landing Hero con demo animada
-**Branch:** `feat/issue-29-landing-hero` | **Completada:** —
+**Lo que se hizo:**
+- Reescrito `app/page.tsx` como Server Component que verifica sesión: si hay usuario redirige a `/dashboard`, si no renderiza la landing.
+- Creado `components/landing/HeroSection.tsx` con badge, H1 con degradado, subtítulo, CTAs y grid responsivo 1-col/2-col.
+- Creado `components/landing/AnimatedCanvas.tsx` con 3 nodos (`users`, `projects`, `tasks`) que aparecen en cascada via `style={{ animation: 'fadeSlideIn ...' }}`, conector SVG animado y label "Generado desde SQL en tiempo real".
+- Añadido `@keyframes fadeSlideIn` en `globals.css` (Tailwind v4 no tiene `tailwind.config.ts`).
+- Actualizado metadata en `layout.tsx` con título y descripción de producto reales.
+- **BONUS**: `PublicShareToggle` ahora muestra un panel con la URL y botón `<Copy>` cuando el diagrama es público.
 
 ### ⬜ Issue #30 — Landing sección features
 **Branch:** `feat/issue-30-landing-features` | **Completada:** —
