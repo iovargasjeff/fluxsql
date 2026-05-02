@@ -1,10 +1,14 @@
 {
   "name": "proyecto-si783-2026-i-u1-generador-de-diagramas-de-base",
   "version": "1.0.0",
-  "description": "",
-  "main": "index.js",
+  "description": "DBCanvas - Generador de diagramas de base de datos",
+  "private": true,
   "scripts": {
-    "test": "echo \"Error: no test specified\" && exit 1"
+    "build": "turbo run build",
+    "dev": "turbo run dev",
+    "lint": "turbo run lint",
+    "test": "turbo run test",
+    "clean": "turbo run clean"
   },
   "keywords": [],
   "author": "",
