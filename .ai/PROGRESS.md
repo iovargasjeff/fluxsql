@@ -4,7 +4,7 @@
 > Sirve como memoria del proyecto: qué se hizo, qué decisiones se tomaron, qué hay que tener en cuenta.
 
 **Última actualización:** 2026-05-02
-**Issues completadas:** 33 / 38
+**Issues completadas:** 34 / 38
 
 ***
 
@@ -15,7 +15,7 @@
 | v0.1 — Setup Base | #1 al #8 | 8/8 | ✅ Completado |
 | v0.2 — Canvas + Editor | #9 al #18 | 10/10 | ✅ Completado |
 | v0.3 — Realtime + Versiones | #19 al #25 | 7/7 | ✅ Completado |
-| v0.4 — UI/UX Polish | #26 al #38 | 8/10 | 🔄 En progreso |
+| v0.4 — UI/UX Polish | #26 al #38 | 9/10 | 🔄 En progreso |
 
 ***
 
@@ -470,8 +470,17 @@
 - ✅ `suppressHydrationWarning` se encuentra activo en `<html>` de `layout.tsx` junto a su respectivo `ThemeProvider` evitando flash y fallas de desajuste.
 - ✅ Monaco Editor detecta activamente `resolvedTheme` evitando dependencias inconsistentes como el estado pre-mount.
 
-### ⬜ Issue #34 — Toolbar del editor con tooltips
-**Branch:** `feat/issue-34-toolbar` | **Completada:** —
+### ✅ Issue #34 — Toolbar del editor con tooltips
+**Branch:** `feat/issue-34-toolbar`
+**Completada:** 2026-05-02
+
+**Lo que se hizo:**
+- Implementada la función abstracta local `ToolbarButton` encapsulando la lógica interactiva de shadcn/ui `Tooltip` dentro de `EditorToolbar.tsx`.
+- Se reemplazó el botón "Guardar" para utilizar `<ToolbarButton>` con el ícono `Save` de `lucide-react` y el atajo "Ctrl+S".
+- Se implementó `<TooltipProvider delayDuration={200}>` abarcando la capa superior del componente `EditorToolbar`.
+
+**Notas importantes para el futuro:**
+- ✅ `TooltipProvider` debe englobar la superficie donde residen los `TooltipTrigger`s a fin de asegurar la disponibilidad de contexto para todos los componentes de Tooltip de shadcn.
 
 ### ⬜ Issue #35 — Responsive tablet 768px+
 **Branch:** `feat/issue-35-responsive` | **Completada:** —

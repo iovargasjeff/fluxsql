@@ -13,12 +13,58 @@ import { getVersionDetailAction } from '@/actions/versions/detail'
 import { DiffViewerModal } from './DiffViewerModal'
 import { PublicShareToggle } from './PublicShareToggle'
 import { ThemeToggle } from '@/components/ThemeToggle'
+import {
+  Tooltip,
+  TooltipContent,
+  TooltipProvider,
+  TooltipTrigger,
+} from '@/components/ui/tooltip'
+import { Save } from 'lucide-react'
 
 interface EditorToolbarProps {
   projectId: string
   projectName: string
   dialect?: string
   initialIsPublic?: boolean
+}
+
+function ToolbarButton({
+  icon: Icon,
+  label,
+  onClick,
+  disabled = false,
+  variant = 'default',
+  shortcut,
+}: {
+  icon: React.ElementType
+  label: string
+  onClick?: () => void
+  disabled?: boolean
+  variant?: 'default' | 'primary' | 'danger'
+  shortcut?: string
+}) {
+  const colorMap = {
+    default: 'text-[#6B7280] hover:text-white hover:bg-[#1E2A45]',
+    primary: 'text-[#1A6CF6] hover:text-blue-400 hover:bg-[#1A6CF6]/10',
+    danger:  'text-[#EF4444] hover:text-red-400 hover:bg-[#EF4444]/10',
+  }
+  return (
+    <Tooltip>
+      <TooltipTrigger asChild>
+        <button
+          onClick={onClick}
+          disabled={disabled}
+          className={`p-2 rounded-lg transition-colors disabled:opacity-40 disabled:cursor-not-allowed min-w-8 min-h-8 flex items-center justify-center ${colorMap[variant]}`}
+        >
+          <Icon size={16} />
+        </button>
+      </TooltipTrigger>
+      <TooltipContent side="bottom" className="text-xs">
+        <span>{label}</span>
+        {shortcut && <span className="ml-1 opacity-60 font-mono">{shortcut}</span>}
+      </TooltipContent>
+    </Tooltip>
+  )
 }
 
 export function EditorToolbar({ projectId, projectName, dialect = 'postgresql', initialIsPublic = false }: EditorToolbarProps) {
@@ -92,7 +138,7 @@ export function EditorToolbar({ projectId, projectName, dialect = 'postgresql', 
   }
 
   return (
-    <>
+    <TooltipProvider delayDuration={200}>
       <header className="shrink-0 border-b border-[#1E2A45] bg-[#111827] h-12 flex items-center px-4 gap-4">
         <a href="/dashboard" className="text-[#94A3B8] hover:text-white transition-colors text-sm">
           ← Dashboard
@@ -111,13 +157,13 @@ export function EditorToolbar({ projectId, projectName, dialect = 'postgresql', 
           <PublicShareToggle diagramId={projectId} initialIsPublic={initialIsPublic} />
           <VersionHistorySheet projectId={projectId} onRestore={handleRestore} onCompare={handleCompare} />
           <CommitModal projectId={projectId} />
-          <button
+          <ToolbarButton
+            icon={Save}
+            label="Guardar"
+            shortcut="Ctrl+S"
             onClick={handleSave}
             disabled={saving}
-            className="bg-[#1A6CF6] hover:bg-[#1A6CF6]/90 text-white px-3 py-1.5 rounded text-sm transition-colors disabled:opacity-50"
-          >
-            {saving ? 'Guardando...' : 'Guardar'}
-          </button>
+          />
           <ExportMenu projectName={projectName} />
           <ThemeToggle />
         </div>
@@ -130,6 +176,6 @@ export function EditorToolbar({ projectId, projectName, dialect = 'postgresql', 
         modifiedCode={diffModal?.modifiedCode ?? ''}
         versionLabel={diffModal?.versionLabel ?? ''}
       />
-    </>
+    </TooltipProvider>
   )
 }
