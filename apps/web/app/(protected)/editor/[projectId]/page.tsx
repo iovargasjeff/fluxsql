@@ -31,6 +31,11 @@ export default async function EditorPage({ params }: EditorPageProps) {
     redirect('/dashboard')
   }
 
+  // Get full name from profiles if exists (as per issue 20, though dbUser.name could work too, the instructions strictly say from profiles if possible or use full_name)
+  const { data: profile } = await supabase.from('profiles').select('full_name').eq('id', user.id).single()
+  const currentUserName = profile?.full_name ?? dbUser.name ?? user.email ?? 'Anónimo'
+  const currentUser = { id: dbUser.id, name: currentUserName }
+
   // Verify the user has access to this project via collaborators
   const [access] = await db
     .select({ project: projects })
@@ -67,6 +72,7 @@ export default async function EditorPage({ params }: EditorPageProps) {
       initialNodes={initialNodes}
       initialEdges={initialEdges}
       dialect={diagramData.dialect ?? 'postgresql'}
+      currentUser={currentUser}
     />
   )
 }

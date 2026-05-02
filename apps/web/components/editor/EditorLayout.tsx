@@ -6,6 +6,8 @@ import { EditorPanel } from './EditorPanel'
 import { Canvas } from './Canvas'
 import { EditorToolbar } from './EditorToolbar'
 import { useEditorStore } from '@/store/useEditorStore'
+import { useCollaboratorCursors } from '@/hooks/useCollaboratorCursors'
+import { CollaboratorCursors } from './CollaboratorCursors'
 
 interface EditorLayoutProps {
   projectName: string
@@ -14,18 +16,22 @@ interface EditorLayoutProps {
   initialNodes?: any[]
   initialEdges?: any[]
   dialect?: string
+  currentUser: { id: string, name: string }
 }
 
-export function EditorLayout({ 
-  projectName, 
+function EditorLayoutInner({
+  projectName,
   projectId,
   initialSQL,
   initialNodes = [],
   initialEdges = [],
-  dialect = 'postgresql'
+  dialect = 'postgresql',
+  currentUser
 }: EditorLayoutProps) {
   const setSqlValue = useEditorStore((state) => state.setSqlValue)
   const setNodesAndEdges = useEditorStore((state) => state.setNodesAndEdges)
+  
+  const { cursors, handleMouseMove } = useCollaboratorCursors(projectId, currentUser.id, currentUser.name)
 
   useEffect(() => {
     if (initialSQL) setSqlValue(initialSQL)
@@ -40,24 +46,36 @@ export function EditorLayout({
   }, [])
 
   return (
-    <ReactFlowProvider>
-      <div className="h-screen flex flex-col bg-[#0A0F1E] text-white overflow-hidden">
-        {/* Header with Toolbar */}
-        <EditorToolbar projectId={projectId} projectName={projectName} dialect={dialect} />
+    <div 
+      className="h-screen flex flex-col bg-[#0A0F1E] text-white overflow-hidden relative"
+      onMouseMove={handleMouseMove}
+    >
+      {/* Header with Toolbar */}
+      <EditorToolbar projectId={projectId} projectName={projectName} dialect={dialect} />
 
-        {/* Main — split 40/60 */}
-        <div className="flex-1 grid grid-cols-[40%_60%] min-h-0">
-          {/* Left — Monaco SQL Editor */}
-          <div className="h-full min-h-0 border-r border-[#1E2A45]">
-            <EditorPanel />
-          </div>
+      {/* Main — split 40/60 */}
+      <div className="flex-1 grid grid-cols-[40%_60%] min-h-0">
+        {/* Left — Monaco SQL Editor */}
+        <div className="h-full min-h-0 border-r border-[#1E2A45]">
+          <EditorPanel />
+        </div>
 
-          {/* Right — React Flow Canvas */}
-          <div className="h-full min-h-0">
-            <Canvas />
-          </div>
+        {/* Right — React Flow Canvas */}
+        <div className="h-full min-h-0 relative">
+          <Canvas />
         </div>
       </div>
+      
+      {/* Cursores Colaborativos superpuestos */}
+      <CollaboratorCursors cursors={cursors} />
+    </div>
+  )
+}
+
+export function EditorLayout(props: EditorLayoutProps) {
+  return (
+    <ReactFlowProvider>
+      <EditorLayoutInner {...props} />
     </ReactFlowProvider>
   )
 }

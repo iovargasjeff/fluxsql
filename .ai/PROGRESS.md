@@ -4,7 +4,7 @@
 > Sirve como memoria del proyecto: qué se hizo, qué decisiones se tomaron, qué hay que tener en cuenta.
 
 **Última actualización:** 2026-05-02
-**Issues completadas:** 19 / 38
+**Issues completadas:** 20 / 38
 
 ***
 
@@ -14,7 +14,7 @@
 |---|---|---|---|
 | v0.1 — Setup Base | #1 al #8 | 8/8 | ✅ Completado |
 | v0.2 — Canvas + Editor | #9 al #18 | 10/10 | ✅ Completado |
-| v0.3 — Realtime + Versiones | #19 al #28 | 1/10 | 🔄 En progreso |
+| v0.3 — Realtime + Versiones | #19 al #28 | 2/10 | 🔄 En progreso |
 | v0.4 — UI/UX Polish | #29 al #38 | 0/10 | ⬜ Pendiente |
 
 ***
@@ -320,8 +320,15 @@
 - Creado flujo de exclusión impidiendo duplicaciones en la tabla `collaborators` y el auto-invitado de dueños.
 - Implementado UI interactivo con Shadcn `Dialog` dentro de los Project Cards del Dashboard, controlando el paso de la propagación del click hacia el Link contenedor (`e.preventDefault()`, `e.stopPropagation()`).
 
-### ⬜ Issue #20 — Realtime: cursores de colaboradores
-**Branch:** `feat/issue-20-realtime-cursors` | **Completada:** —
+### ✅ Issue #20 — Realtime: cursores de colaboradores
+**Branch:** `feat/issue-20-realtime-cursors`
+**Completada:** 2026-05-02
+
+**Lo que se hizo:**
+- Creado hook `useCollaboratorCursors` que inicializa un canal Supabase Presence para sincronizar el estado multijugador (`x`, `y`, `color`, `name`).
+- Aplicado un sistema de asignación cromática consistente mediante la generación de un hash MD5/SHA simplificado basado en el ID del usuario.
+- Implementada la traducción de coordenadas React Flow (escala dinámica) usando `screenToFlowPosition` y `flowToScreenPosition` logrando que el cursor mantenga su lugar lógico en el canvas por más que ambos clientes estén operando en diferentes monitores o niveles de Zoom.
+- Renderizado desacoplado dentro de `<CollaboratorCursors />` fijado en la pantalla usando capas superpuestas sin interferir en clics ni en los nodos del sistema.
 
 ### ⬜ Issue #21 — Sync de posición de nodos en tiempo real
 **Branch:** `feat/issue-21-realtime-nodes` | **Completada:** —
