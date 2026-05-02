@@ -4,7 +4,7 @@
 > Sirve como memoria del proyecto: qué se hizo, qué decisiones se tomaron, qué hay que tener en cuenta.
 
 **Última actualización:** 2026-05-02
-**Issues completadas:** 23 / 38
+**Issues completadas:** 24 / 38
 
 ***
 
@@ -14,7 +14,7 @@
 |---|---|---|---|
 | v0.1 — Setup Base | #1 al #8 | 8/8 | ✅ Completado |
 | v0.2 — Canvas + Editor | #9 al #18 | 10/10 | ✅ Completado |
-| v0.3 — Realtime + Versiones | #19 al #28 | 5/10 | 🔄 En progreso |
+| v0.3 — Realtime + Versiones | #19 al #28 | 6/10 | 🔄 En progreso |
 | v0.4 — UI/UX Polish | #29 al #38 | 0/10 | ⬜ Pendiente |
 
 ***
@@ -361,8 +361,14 @@
 - Fechas transformadas al español natural utilizando `formatDistanceToNow` y la locale `es`.
 - Embebido orgánicamente dentro del Toolbar principal del Editor.
 
-### ⬜ Issue #24 — Restaurar versión anterior
-**Branch:** `feat/issue-24-version-restore` | **Completada:** —
+### ✅ Issue #24 — Restaurar versión anterior
+**Branch:** `feat/issue-24-version-restore`
+**Completada:** 2026-05-02
+
+**Lo que se hizo:**
+- Creada Server Action `restoreVersionAction` que valida propiedad, localiza en base de datos la copia en caché (`flowJson`, `sqlContent`) de una versión atada a su `projectId` y la transfiere sobrescribiendo el modelo actual del lienzo en la tabla original `diagrams`.
+- Acoplado el callback del botón "Restaurar →" dentro del listado que solicita confirmación bloqueante nativa (`window.confirm()`) previniendo una sobreescritura accidental.
+- Aplicación de Estado Síncrona mediante el consumo imperativo del contexto global `useEditorStore.getState()` evitando refrescar la pestaña (`window.location.reload`) inyectando directamente los nodos y esquemas SQL restaurados sin causar parpadeo al layout.
 
 ### ⬜ Issue #25 — Comparar 2 versiones (Diff Editor)
 **Branch:** `feat/issue-25-version-diff` | **Completada:** —

@@ -8,6 +8,7 @@ import { useEditorStore } from '@/store/useEditorStore'
 import { ExportMenu } from './ExportMenu'
 import { CommitModal } from './CommitModal'
 import { VersionHistorySheet } from './VersionHistorySheet'
+import { restoreVersionAction } from '@/actions/versions/restore'
 
 interface EditorToolbarProps {
   projectId: string
@@ -44,6 +45,28 @@ export function EditorToolbar({ projectId, projectName, dialect = 'postgresql' }
     }
   }
 
+  const handleRestore = async (versionId: string) => {
+    const ok = window.confirm('⚠️ Se perderán los cambios no guardados. ¿Restaurar esta versión?')
+    if (!ok) return
+
+    try {
+      const result = await restoreVersionAction(versionId, projectId)
+      if (result.error) {
+        toast.error(result.error)
+        return
+      }
+
+      // Aplicar estado restaurado al store (SIN reload de página)
+      const flow = (result.flowJson as { nodes?: any[]; edges?: any[] }) ?? {}
+      useEditorStore.getState().setSqlValue(result.sqlContent ?? '')
+      useEditorStore.getState().setNodesAndEdges(flow.nodes ?? [], flow.edges ?? [])
+
+      toast.success(`Versión v${result.versionNumber} restaurada correctamente`)
+    } catch (err) {
+      toast.error('Ocurrió un error inesperado al restaurar la versión')
+    }
+  }
+
   return (
     <header className="shrink-0 border-b border-[#1E2A45] bg-[#111827] h-12 flex items-center px-4 gap-4">
       <a href="/dashboard" className="text-[#94A3B8] hover:text-white transition-colors text-sm">
@@ -54,7 +77,7 @@ export function EditorToolbar({ projectId, projectName, dialect = 'postgresql' }
       <span className="ml-auto text-xs text-[#94A3B8] font-mono hidden md:block">{projectId}</span>
       
       <div className="flex items-center gap-2 ml-4">
-        <VersionHistorySheet projectId={projectId} />
+        <VersionHistorySheet projectId={projectId} onRestore={handleRestore} />
         <CommitModal projectId={projectId} />
         <button
           onClick={handleSave}
