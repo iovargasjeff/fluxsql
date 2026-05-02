@@ -2,12 +2,12 @@
 
 import { useEffect } from 'react'
 import type { Node } from '@xyflow/react'
-import { parseSQL } from '@fluxsql/parsers'
+import { parseSQL, parseJSON } from '@fluxsql/parsers'
 import { useEditorStore, toReactFlowEdge } from '@/store/useEditorStore'
 import { useDebounce } from './useDebounce'
 
 export function useSyncEditor(
-  dialect: 'postgresql' | 'mysql' | 'sqlserver' = 'postgresql'
+  mode: 'postgresql' | 'mysql' | 'sqlserver' | 'json' = 'postgresql'
 ) {
   const sqlValue = useEditorStore((state) => state.sqlValue)
   const setNodesAndEdges = useEditorStore((state) => state.setNodesAndEdges)
@@ -18,7 +18,9 @@ export function useSyncEditor(
     if (!debouncedSQL.trim()) return
 
     try {
-      const result = parseSQL(debouncedSQL, dialect)
+      const result = mode === 'json'
+        ? parseJSON(debouncedSQL)
+        : parseSQL(debouncedSQL, mode)
 
       // If parsing failed completely (errors + no nodes) — keep the canvas as-is
       if (result.errors.length > 0 && result.nodes.length === 0) return
@@ -41,7 +43,7 @@ export function useSyncEditor(
       // If parser throws unexpectedly, keep canvas intact
     }
   // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, [debouncedSQL, dialect])
+  }, [debouncedSQL, mode])
   // CRITICAL: currentNodes must NOT be in deps — causes infinite loop
   // Use useEditorStore.getState().nodes to read without subscribing
 }

@@ -1,8 +1,10 @@
 'use client'
 
+import { useState } from 'react'
 import dynamic from 'next/dynamic'
 import { useEditorStore } from '@/store/useEditorStore'
 import { useSyncEditor } from '@/hooks/useSyncEditor'
+import { ModeSelector, type EditorMode } from './ModeSelector'
 
 // CRITICAL: ssr: false — Monaco uses browser APIs (window, document, Worker)
 const MonacoEditor = dynamic(
@@ -19,20 +21,22 @@ const MonacoEditor = dynamic(
 
 export function EditorPanel() {
   const { sqlValue, setSqlValue } = useEditorStore()
-  useSyncEditor('postgresql') // Activates real-time SQL → canvas sync
+  const [mode, setMode] = useState<EditorMode>('postgresql')
+  useSyncEditor(mode) // Activates real-time SQL/JSON → canvas sync
 
   return (
     <div className="w-full h-full flex flex-col bg-[#1E1E1E]">
       {/* Tab bar */}
       <div className="shrink-0 flex items-center px-4 py-2 bg-[#252526] border-b border-[#1E2A45]">
-        <span className="text-[#9CDCFE] text-xs font-mono">schema.sql</span>
+        <span className="text-[#9CDCFE] text-xs font-mono">schema.{mode === 'json' ? 'json' : 'sql'}</span>
+        <ModeSelector mode={mode} onChange={setMode} />
       </div>
 
       {/* Monaco Editor — fills remaining height */}
       <div className="flex-1 overflow-hidden">
         <MonacoEditor
           height="100%"
-          language="sql"
+          language={mode === 'json' ? 'json' : 'sql'}
           theme="vs-dark"
           value={sqlValue}
           onChange={(value) => setSqlValue(value ?? '')}

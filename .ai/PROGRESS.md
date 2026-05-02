@@ -4,7 +4,7 @@
 > Sirve como memoria del proyecto: qué se hizo, qué decisiones se tomaron, qué hay que tener en cuenta.
 
 **Última actualización:** 2026-05-02
-**Issues completadas:** 13 / 38
+**Issues completadas:** 14 / 38
 
 ***
 
@@ -13,7 +13,7 @@
 | Milestone | Issues | Completadas | Estado |
 |---|---|---|---|
 | v0.1 — Setup Base | #1 al #8 | 8/8 | ✅ Completado |
-| v0.2 — Canvas + Editor | #9 al #18 | 5/10 | 🔄 En progreso |
+| v0.2 — Canvas + Editor | #9 al #18 | 6/10 | 🔄 En progreso |
 | v0.3 — Realtime + Versiones | #19 al #28 | 0/10 | ⬜ Pendiente |
 | v0.4 — UI/UX Polish | #29 al #38 | 0/10 | ⬜ Pendiente |
 
@@ -252,8 +252,20 @@
 - ✅ Para evitar un infinite loop al re-setear nodos desde un useEffect, es crítico leer `currentNodes` sin que sea dependencia del array, lográndolo mediante `useEditorStore.getState().nodes`.
 - ✅ El manejador del parser previene caídas visuales atrapando errores graves (aunque el parser de por sí los captura), y en caso de DDL en curso inválido no borra el lienzo.
 
-### ⬜ Issue #14 — Soporte JSON Schema → nodos NoSQL
-**Branch:** `feat/issue-14-parser-json-schema` | **Completada:** —
+### ✅ Issue #14 — Soporte JSON Schema → nodos NoSQL
+**Branch:** `feat/issue-14-parser-json-schema`
+**Completada:** 2026-05-02
+
+**Lo que se hizo:**
+- Creado `ModeSelector.tsx` con botones para "PostgreSQL", "MySQL", "SQL Server" y "JSON".
+- Agregado estado `mode` en `EditorPanel.tsx` para permitir cambiar el `language` de Monaco y pasárselo a `useSyncEditor`.
+- Actualizado `useSyncEditor.ts` para aceptar `mode: EditorMode` y llamar a `parseJSON` en modo JSON.
+- Implementado `parseJSON` en `@fluxsql/parsers` con soporte para parsear tanto un JSON Schema estándar con "properties" como un JSON anidado (formato simple NoSQL).
+- Asignación de iconos automáticos de PK (`_id` o `id`) al parsear el JSON y `isForeignKey: false` para sub-objetos y campos en formato JSON en el parser `packages/parsers/src/index.ts`.
+
+**Notas importantes para el futuro:**
+- ✅ `parseJSON` atrapa en un bloque `try-catch` los casos de escritura a medias, por lo que JSON inválido temporal no borra la vista en el Canvas.
+- ✅ Los estilos visuales de botones activos e inactivos están implementados en el `ModeSelector`, manteniendo el diseño de la interfaz oscura.
 
 ### ⬜ Issue #15 — Guardar diagrama en Supabase
 **Branch:** `feat/issue-15-save-diagram` | **Completada:** —
