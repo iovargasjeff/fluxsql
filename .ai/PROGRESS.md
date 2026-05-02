@@ -4,7 +4,7 @@
 > Sirve como memoria del proyecto: qué se hizo, qué decisiones se tomaron, qué hay que tener en cuenta.
 
 **Última actualización:** 2026-05-02
-**Issues completadas:** 32 / 38
+**Issues completadas:** 33 / 38
 
 ***
 
@@ -15,7 +15,7 @@
 | v0.1 — Setup Base | #1 al #8 | 8/8 | ✅ Completado |
 | v0.2 — Canvas + Editor | #9 al #18 | 10/10 | ✅ Completado |
 | v0.3 — Realtime + Versiones | #19 al #25 | 7/7 | ✅ Completado |
-| v0.4 — UI/UX Polish | #26 al #38 | 7/10 | 🔄 En progreso |
+| v0.4 — UI/UX Polish | #26 al #38 | 8/10 | 🔄 En progreso |
 
 ***
 
@@ -456,8 +456,17 @@
 - `dashboard/page.tsx` ahora obtiene `dbUserId` para determinar ownership y lo pasa a `<ProjectGrid>`.
 - `ProjectList.tsx` actualizado con `ownerId` en el tipo `Project` (fix TypeScript).
 
-### ⬜ Issue #33 — Tema oscuro/claro con next-themes
-**Branch:** `feat/issue-33-dark-mode` | **Completada:** —
+### ✅ Issue #33 — Tema oscuro/claro con next-themes
+**Branch:** `feat/issue-33-dark-mode`
+**Completada:** 2026-05-02
+
+**Lo que se hizo:**
+- Instalado `next-themes`.
+- Configurado `ThemeProvider` en `layout.tsx` con `suppressHydrationWarning`.
+- Verificado que `@custom-variant dark` ya existía en `globals.css` (Tailwind v4).
+- Creado `ThemeToggle.tsx` con patrón `mounted` para evitar hidratación.
+- Integrado `ThemeToggle` en la toolbar del editor.
+- Actualizado `EditorPanel.tsx` y `DiffViewerModal.tsx` para cambiar dinámicamente el tema de Monaco Editor (`vs-dark`/`vs-light`).
 
 ### ⬜ Issue #34 — Toolbar del editor con tooltips
 **Branch:** `feat/issue-34-toolbar` | **Completada:** —

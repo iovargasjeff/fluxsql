@@ -12,6 +12,7 @@ import { restoreVersionAction } from '@/actions/versions/restore'
 import { getVersionDetailAction } from '@/actions/versions/detail'
 import { DiffViewerModal } from './DiffViewerModal'
 import { PublicShareToggle } from './PublicShareToggle'
+import { ThemeToggle } from '@/components/ThemeToggle'
 
 interface EditorToolbarProps {
   projectId: string
@@ -118,6 +119,7 @@ export function EditorToolbar({ projectId, projectName, dialect = 'postgresql', 
             {saving ? 'Guardando...' : 'Guardar'}
           </button>
           <ExportMenu projectName={projectName} />
+          <ThemeToggle />
         </div>
       </header>
 
