@@ -4,7 +4,7 @@
 > Sirve como memoria del proyecto: qué se hizo, qué decisiones se tomaron, qué hay que tener en cuenta.
 
 **Última actualización:** 2026-05-02
-**Issues completadas:** 26 / 38
+**Issues completadas:** 27 / 38
 
 ***
 
@@ -15,7 +15,7 @@
 | v0.1 — Setup Base | #1 al #8 | 8/8 | ✅ Completado |
 | v0.2 — Canvas + Editor | #9 al #18 | 10/10 | ✅ Completado |
 | v0.3 — Realtime + Versiones | #19 al #25 | 7/7 | ✅ Completado |
-| v0.4 — UI/UX Polish | #29 al #38 | 1/10 | 🔄 En progreso |
+| v0.4 — UI/UX Polish | #26 al #38 | 2/10 | 🔄 En progreso |
 
 ***
 
@@ -393,8 +393,15 @@
 - Componente dinámico UI interactivo `<PublicShareToggle>` incorporado en el `<EditorToolbar>` a modo de Toggle con validadores visuales para generar links y copiarlos en el portapapeles del navegador automáticamente.
 - Desplegada la ruta `/public/[id]/page.tsx` sin heredar los layouts autenticados. Retorna un 404 nativo en diagramas privados, pero renderiza exitosamente los esquemas públicos montando una versión inhabilitada para arrastres, conexiones y edición (`PublicDiagramView`).
 
-### ⬜ Issue #27 — Búsqueda de tablas (Command Palette Ctrl+K)
-**Branch:** `feat/issue-27-command-palette` | **Completada:** —
+### ✅ Issue #27 — Búsqueda de tablas (Command Palette Ctrl+K)
+**Branch:** `feat/issue-27-command-palette`
+**Completada:** 2026-05-02
+
+**Lo que se hizo:**
+- Instalado `cmdk` (dependencia de Shadcn Command) y creado manualmente `components/ui/command.tsx` adaptado al design system oscuro del proyecto.
+- Creado `<SearchPalette>` que escucha `Ctrl+K` / `Cmd+K` globalmente usando `addEventListener`, abre un `<CommandDialog>` y lista de forma reactiva todas las tablas presentes en el canvas.
+- Al seleccionar una tabla, `setCenter()` de React Flow anima la cámara con zoom 1.5 y duración de 800ms directamente hacia el nodo.
+- Añadido hint visual `Ctrl + K` en el `<EditorToolbar>` para descubribilidad del feature.
 
 ### ⬜ Issue #28 — Tests E2E con Playwright
 **Branch:** `feat/issue-28-e2e-playwright` | **Completada:** —

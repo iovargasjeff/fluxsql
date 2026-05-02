@@ -33,24 +33,24 @@ function EditorLayoutInner({
 }: EditorLayoutProps) {
   const setSqlValue = useEditorStore((state) => state.setSqlValue)
   const setNodesAndEdges = useEditorStore((state) => state.setNodesAndEdges)
-  
+
   const { cursors, handleMouseMove } = useCollaboratorCursors(projectId, currentUser.id, currentUser.name)
   const { emitNodeMove, emitSqlChange } = useRealtimeSync(projectId, currentUser.id)
 
   useEffect(() => {
     if (initialSQL) setSqlValue(initialSQL)
-  // eslint-disable-next-line react-hooks/exhaustive-deps
+    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [])
 
   useEffect(() => {
     if (initialNodes.length > 0) {
       setNodesAndEdges(initialNodes, initialEdges)
     }
-  // eslint-disable-next-line react-hooks/exhaustive-deps
+    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [])
 
   return (
-    <div 
+    <div
       className="h-screen flex flex-col bg-[#0A0F1E] text-white overflow-hidden relative"
       onMouseMove={handleMouseMove}
     >
@@ -69,7 +69,7 @@ function EditorLayoutInner({
           <Canvas emitNodeMove={emitNodeMove} />
         </div>
       </div>
-      
+
       {/* Cursores Colaborativos superpuestos */}
       <CollaboratorCursors cursors={cursors} />
     </div>

@@ -100,6 +100,12 @@ export function EditorToolbar({ projectId, projectName, dialect = 'postgresql', 
         <h1 className="font-semibold text-[#E2E8F0] truncate">{projectName}</h1>
         <span className="ml-auto text-xs text-[#94A3B8] font-mono hidden md:block">{projectId}</span>
         
+        <span className="hidden sm:flex items-center gap-1 text-[#6B7280] text-xs ml-4">
+          <kbd className="px-1.5 py-0.5 bg-[#1E2A45] rounded text-[10px]">Ctrl</kbd>
+          <span>+</span>
+          <kbd className="px-1.5 py-0.5 bg-[#1E2A45] rounded text-[10px]">K</kbd>
+        </span>
+        
         <div className="flex items-center gap-2 ml-4">
           <PublicShareToggle diagramId={projectId} initialIsPublic={initialIsPublic} />
           <VersionHistorySheet projectId={projectId} onRestore={handleRestore} onCompare={handleCompare} />
