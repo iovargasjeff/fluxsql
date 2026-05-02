@@ -4,7 +4,7 @@
 > Sirve como memoria del proyecto: qué se hizo, qué decisiones se tomaron, qué hay que tener en cuenta.
 
 **Última actualización:** 2026-05-02
-**Issues completadas:** 29 / 38
+**Issues completadas:** 30 / 38
 
 ***
 
@@ -15,7 +15,7 @@
 | v0.1 — Setup Base | #1 al #8 | 8/8 | ✅ Completado |
 | v0.2 — Canvas + Editor | #9 al #18 | 10/10 | ✅ Completado |
 | v0.3 — Realtime + Versiones | #19 al #25 | 7/7 | ✅ Completado |
-| v0.4 — UI/UX Polish | #26 al #38 | 4/10 | 🔄 En progreso |
+| v0.4 — UI/UX Polish | #26 al #38 | 5/10 | 🔄 En progreso |
 
 ***
 
@@ -427,8 +427,14 @@
 - Actualizado metadata en `layout.tsx` con título y descripción de producto reales.
 - **BONUS**: `PublicShareToggle` ahora muestra un panel con la URL y botón `<Copy>` cuando el diagrama es público.
 
-### ⬜ Issue #30 — Landing sección features
-**Branch:** `feat/issue-30-landing-features` | **Completada:** —
+### ✅ Issue #30 — Landing page: sección features
+**Branch:** `feat/issue-30-landing-features`
+**Completada:** 2026-05-02
+
+**Lo que se hizo:**
+- Creado `FeaturesSection.tsx` (Server Component) con 6 cards (SQL, Colaboración, Git, Share, Mermaid, Monaco), grid responsivo 1→2→3 columnas.
+- Cada card usa `iconMap` con componentes de lucide-react instanciados dinámicamente desde nombre string.
+- Importado y añadido debajo de `<HeroSection />` en `app/page.tsx`.
 
 ### ⬜ Issue #31 — Landing pricing + footer
 **Branch:** `feat/issue-31-landing-pricing` | **Completada:** —

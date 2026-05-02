@@ -1,6 +1,7 @@
 import { createClient } from '@/lib/supabase/server'
 import { redirect } from 'next/navigation'
 import { HeroSection } from '@/components/landing/HeroSection'
+import { FeaturesSection } from '@/components/landing/FeaturesSection'
 
 export default async function HomePage() {
   const supabase = await createClient()
@@ -13,6 +14,7 @@ export default async function HomePage() {
   return (
     <main className="min-h-screen bg-[#0A0F1E]">
       <HeroSection />
+      <FeaturesSection />
     </main>
   )
 }
