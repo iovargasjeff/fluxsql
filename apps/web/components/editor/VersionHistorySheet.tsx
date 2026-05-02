@@ -19,6 +19,7 @@ import { toast } from 'sonner'
 interface VersionHistorySheetProps {
   projectId: string
   onRestore?: (versionId: string) => void
+  onCompare?: (versionId: string, versionNumber: number) => void
 }
 
 interface VersionData {
@@ -30,7 +31,7 @@ interface VersionData {
   authorName: string | null
 }
 
-export function VersionHistorySheet({ projectId, onRestore }: VersionHistorySheetProps) {
+export function VersionHistorySheet({ projectId, onRestore, onCompare }: VersionHistorySheetProps) {
   const [open, setOpen] = useState(false)
   const [loading, setLoading] = useState(true)
   const [versions, setVersions] = useState<VersionData[]>([])
@@ -128,19 +129,34 @@ export function VersionHistorySheet({ projectId, onRestore }: VersionHistoryShee
                   Por: {version.authorName ?? version.userId.substring(0, 8)}
                 </div>
 
-                {onRestore && (
-                  <Button
-                    size="sm"
-                    variant="ghost"
-                    onClick={() => {
-                      onRestore(version.id)
-                      setOpen(false)
-                    }}
-                    className="absolute bottom-2 right-2 h-7 px-2 text-xs opacity-0 group-hover:opacity-100 bg-[#1A6CF6] text-white hover:bg-[#1A6CF6]/80 hover:text-white transition-opacity"
-                  >
-                    Restaurar <ArrowRight className="w-3 h-3 ml-1" />
-                  </Button>
-                )}
+                <div className="absolute bottom-2 right-2 flex items-center gap-2 opacity-0 group-hover:opacity-100 transition-opacity">
+                  {onCompare && (
+                    <Button
+                      size="sm"
+                      variant="ghost"
+                      onClick={() => {
+                        onCompare(version.id, version.versionNumber)
+                      }}
+                      className="h-7 px-2 text-xs bg-[#1E2A45] text-white hover:bg-[#1E2A45]/80 hover:text-white transition-opacity"
+                    >
+                      Comparar ↔
+                    </Button>
+                  )}
+
+                  {onRestore && (
+                    <Button
+                      size="sm"
+                      variant="ghost"
+                      onClick={() => {
+                        onRestore(version.id)
+                        setOpen(false)
+                      }}
+                      className="h-7 px-2 text-xs bg-[#1A6CF6] text-white hover:bg-[#1A6CF6]/80 hover:text-white transition-opacity"
+                    >
+                      Restaurar <ArrowRight className="w-3 h-3 ml-1" />
+                    </Button>
+                  )}
+                </div>
               </div>
             ))
           )}

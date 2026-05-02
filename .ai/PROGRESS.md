@@ -4,7 +4,7 @@
 > Sirve como memoria del proyecto: qué se hizo, qué decisiones se tomaron, qué hay que tener en cuenta.
 
 **Última actualización:** 2026-05-02
-**Issues completadas:** 24 / 38
+**Issues completadas:** 25 / 38
 
 ***
 
@@ -14,7 +14,7 @@
 |---|---|---|---|
 | v0.1 — Setup Base | #1 al #8 | 8/8 | ✅ Completado |
 | v0.2 — Canvas + Editor | #9 al #18 | 10/10 | ✅ Completado |
-| v0.3 — Realtime + Versiones | #19 al #28 | 6/10 | 🔄 En progreso |
+| v0.3 — Realtime + Versiones | #19 al #25 | 7/7 | ✅ Completado |
 | v0.4 — UI/UX Polish | #29 al #38 | 0/10 | ⬜ Pendiente |
 
 ***
@@ -370,8 +370,19 @@
 - Acoplado el callback del botón "Restaurar →" dentro del listado que solicita confirmación bloqueante nativa (`window.confirm()`) previniendo una sobreescritura accidental.
 - Aplicación de Estado Síncrona mediante el consumo imperativo del contexto global `useEditorStore.getState()` evitando refrescar la pestaña (`window.location.reload`) inyectando directamente los nodos y esquemas SQL restaurados sin causar parpadeo al layout.
 
-### ⬜ Issue #25 — Comparar 2 versiones (Diff Editor)
-**Branch:** `feat/issue-25-version-diff` | **Completada:** —
+### ✅ Issue #25 — Comparar 2 versiones (Diff Editor)
+**Branch:** `feat/issue-25-version-diff`
+**Completada:** 2026-05-02
+
+**Lo que se hizo:**
+- Creada Server Action `getVersionDetailAction` optimizada para descargar en crudo únicamente el texto DDL de la versión antigua obviando metadatos.
+- Implementado el componente `<DiffViewerModal>` instanciando dinámicamente `<DiffEditor>` de `@monaco-editor/react` forzando deshabilitar el Server-Side Rendering (`ssr: false`) para evadir colapsos relacionados a variables globales (`window`).
+- Integrado un manejador robusto capaz de identificar si una versión es estructuralmente idéntica al código actual, dibujando un renderizado amigable (`<CheckCircle2>`) en lugar de mostrar editores vacíos.
+- Desplegados todos los elementos acoplados desde el `<EditorToolbar>`, completando al 100% el panel de Version Control.
+
+***
+
+## Milestone v0.4 — UI/UX Polish (Pendiente)
 
 ### ⬜ Issue #26 — Link público de solo lectura
 **Branch:** `feat/issue-26-public-link` | **Completada:** —

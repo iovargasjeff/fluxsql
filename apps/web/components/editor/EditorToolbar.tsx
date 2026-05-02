@@ -9,6 +9,8 @@ import { ExportMenu } from './ExportMenu'
 import { CommitModal } from './CommitModal'
 import { VersionHistorySheet } from './VersionHistorySheet'
 import { restoreVersionAction } from '@/actions/versions/restore'
+import { getVersionDetailAction } from '@/actions/versions/detail'
+import { DiffViewerModal } from './DiffViewerModal'
 
 interface EditorToolbarProps {
   projectId: string
@@ -20,6 +22,8 @@ export function EditorToolbar({ projectId, projectName, dialect = 'postgresql' }
   const { toObject } = useReactFlow()
   const sqlValue = useEditorStore((state) => state.sqlValue)
   const [saving, setSaving] = useState(false)
+
+  const [diffModal, setDiffModal] = useState<{ open: boolean; originalCode: string; modifiedCode: string; versionLabel: string } | null>(null)
 
   const handleSave = async () => {
     setSaving(true)
@@ -67,27 +71,54 @@ export function EditorToolbar({ projectId, projectName, dialect = 'postgresql' }
     }
   }
 
+  const handleCompare = async (versionId: string, versionNumber: number) => {
+    const result = await getVersionDetailAction(versionId)
+    if (result.error || !result.data) {
+      toast.error(result.error ?? 'No se pudo cargar la versión')
+      return
+    }
+
+    const currentSQL = useEditorStore.getState().sqlValue ?? ''
+    
+    setDiffModal({
+      open: true,
+      originalCode: result.data.sqlContent ?? '',
+      modifiedCode: currentSQL,
+      versionLabel: `v${versionNumber} vs actual`
+    })
+  }
+
   return (
-    <header className="shrink-0 border-b border-[#1E2A45] bg-[#111827] h-12 flex items-center px-4 gap-4">
-      <a href="/dashboard" className="text-[#94A3B8] hover:text-white transition-colors text-sm">
-        ← Dashboard
-      </a>
-      <span className="text-[#1E2A45]">|</span>
-      <h1 className="font-semibold text-[#E2E8F0] truncate">{projectName}</h1>
-      <span className="ml-auto text-xs text-[#94A3B8] font-mono hidden md:block">{projectId}</span>
-      
-      <div className="flex items-center gap-2 ml-4">
-        <VersionHistorySheet projectId={projectId} onRestore={handleRestore} />
-        <CommitModal projectId={projectId} />
-        <button
-          onClick={handleSave}
-          disabled={saving}
-          className="bg-[#1A6CF6] hover:bg-[#1A6CF6]/90 text-white px-3 py-1.5 rounded text-sm transition-colors disabled:opacity-50"
-        >
-          {saving ? 'Guardando...' : 'Guardar'}
-        </button>
-        <ExportMenu projectName={projectName} />
-      </div>
-    </header>
+    <>
+      <header className="shrink-0 border-b border-[#1E2A45] bg-[#111827] h-12 flex items-center px-4 gap-4">
+        <a href="/dashboard" className="text-[#94A3B8] hover:text-white transition-colors text-sm">
+          ← Dashboard
+        </a>
+        <span className="text-[#1E2A45]">|</span>
+        <h1 className="font-semibold text-[#E2E8F0] truncate">{projectName}</h1>
+        <span className="ml-auto text-xs text-[#94A3B8] font-mono hidden md:block">{projectId}</span>
+        
+        <div className="flex items-center gap-2 ml-4">
+          <VersionHistorySheet projectId={projectId} onRestore={handleRestore} onCompare={handleCompare} />
+          <CommitModal projectId={projectId} />
+          <button
+            onClick={handleSave}
+            disabled={saving}
+            className="bg-[#1A6CF6] hover:bg-[#1A6CF6]/90 text-white px-3 py-1.5 rounded text-sm transition-colors disabled:opacity-50"
+          >
+            {saving ? 'Guardando...' : 'Guardar'}
+          </button>
+          <ExportMenu projectName={projectName} />
+        </div>
+      </header>
+
+      <DiffViewerModal
+        open={diffModal?.open ?? false}
+        onClose={() => setDiffModal(null)}
+        originalCode={diffModal?.originalCode ?? ''}
+        modifiedCode={diffModal?.modifiedCode ?? ''}
+        versionLabel={diffModal?.versionLabel ?? ''}
+      />
+    </>
   )
 }
