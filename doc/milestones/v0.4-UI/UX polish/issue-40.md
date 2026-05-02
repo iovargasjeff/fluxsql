@@ -267,7 +267,7 @@ Texto esperado: `© 2026 DBCanvas — Universidad Privada de Tacna. Todos los de
 ## Reglas Críticas
 
 1. Leer `.ia/AGENT.md` y `.ia/PROGRESS.md` antes de escribir código
-2. `pnpm build` debe pasar sin errores — ejecutar y corregir antes del commit
+2. `pnpm build` debe pasar sin errores — ejecutar y corregir     antes del commit
 3. **NUNCA tocar:** `proxy.ts`, `middleware.ts`, `@custom-variant dark` en globals.css
 4. **NO crear** `tailwind.config.ts` — Tailwind v4 usa solo `globals.css`
 5. Componentes con `useState`, `useEffect`, `localStorage`, `window` → `'use client'` + patrón `mounted`

@@ -4,7 +4,7 @@
 > Sirve como memoria del proyecto: qué se hizo, qué decisiones se tomaron, qué hay que tener en cuenta.
 
 **Última actualización:** 2026-05-02
-**Issues completadas:** 39 / 40 🏆
+**Issues completadas:** 40 / 41 🏆
 
 ***
 
@@ -15,7 +15,7 @@
 | v0.1 — Setup Base | #1 al #8 | 8/8 | ✅ Completado |
 | v0.2 — Canvas + Editor | #9 al #18 | 10/10 | ✅ Completado |
 | v0.4 — UI/UX Polish | #26 al #38 | 13/13 | ✅ Completado 🏆 |
-| v0.5 — Auth & UX Redesign | #39 al #40 | 2/2 | ✅ Completado 🏆 |
+| v0.5 — Auth & UX Redesign | #39 al #41 | 3/3 | ✅ Completado 🏆 |
 
 ***
 
@@ -569,6 +569,15 @@ El proyecto FluxSQL está listo para revisión académica y despliegue en produc
 - Creado `<HeroSection>` incluyendo H1 animado y simulación de diagrama ER flotante usando `<motion.div>` intercalado con `svg` dibujado inline.
 - Añadidos `<HowItWorks>` y un refinado `<FeaturesSection>` implementando un sistema de grid de alta fidelidad con acentos neon azul y violeta.
 - Integrados `<Navbar>`, `<BottomCTA>` y `<Footer>` ajustándose a los requerimientos visuales del tema oscuro de DBCanvas.
+
+### ✅ Issue #41 — Dashboard: Sidebar de Navegación
+**Branch:** `feat/issue-41-dashboard-sidebar`
+**Completada:** 2026-05-02
+
+**Lo que se hizo:**
+- Creado `DashboardSidebar.tsx` en `apps/web/components/dashboard`.
+- Modificado `apps/web/app/(protected)/dashboard/page.tsx` para incluir el sidebar y obtener el nombre del usuario.
+- Enuelto `DashboardSidebar` en `Suspense` para evitar errores de hidratación debido al uso de `useSearchParams`.
 
 ***
 
