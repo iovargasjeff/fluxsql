@@ -4,7 +4,7 @@
 > Sirve como memoria del proyecto: qué se hizo, qué decisiones se tomaron, qué hay que tener en cuenta.
 
 **Última actualización:** 2026-05-02
-**Issues completadas:** 14 / 38
+**Issues completadas:** 16 / 38
 
 ***
 
@@ -13,7 +13,7 @@
 | Milestone | Issues | Completadas | Estado |
 |---|---|---|---|
 | v0.1 — Setup Base | #1 al #8 | 8/8 | ✅ Completado |
-| v0.2 — Canvas + Editor | #9 al #18 | 6/10 | 🔄 En progreso |
+| v0.2 — Canvas + Editor | #9 al #18 | 8/10 | 🔄 En progreso |
 | v0.3 — Realtime + Versiones | #19 al #28 | 0/10 | ⬜ Pendiente |
 | v0.4 — UI/UX Polish | #29 al #38 | 0/10 | ⬜ Pendiente |
 
@@ -267,11 +267,24 @@
 - ✅ `parseJSON` atrapa en un bloque `try-catch` los casos de escritura a medias, por lo que JSON inválido temporal no borra la vista en el Canvas.
 - ✅ Los estilos visuales de botones activos e inactivos están implementados en el `ModeSelector`, manteniendo el diseño de la interfaz oscura.
 
-### ⬜ Issue #15 — Guardar diagrama en Supabase
-**Branch:** `feat/issue-15-save-diagram` | **Completada:** —
+### ✅ Issue #15 — Guardar diagrama en Supabase
+**Branch:** `feat/issue-15-save-diagram`
+**Completada:** 2026-05-02
 
-### ⬜ Issue #16 — Cargar diagrama existente
-**Branch:** `feat/issue-16-load-diagram` | **Completada:** —
+**Lo que se hizo:**
+- Creado `actions/diagrams/save.ts` Server Action para persistir el SQL, JSON del layout, y metadata de diagrama. Verifica que el usuario tenga acceso a modificarlo en base de datos.
+- Instalado paquete `sonner` e inicializado componente `<Toaster />` en el Root Layout para proveer retroalimentación interactiva (Toast) después de las operaciones de guardado.
+- Añadido componente `EditorToolbar.tsx` consumiendo `useReactFlow().toObject()` para exportar las ubicaciones absolutas de todos los nodos en el canvas hacia el flujo de guardado.
+- Re-diseñado `EditorLayout.tsx` para envolver a todos sus componentes con el `<ReactFlowProvider />` permitiendo el uso de funciones base de React Flow desde herramientas desacopladas del Canvas como lo es el Toolbar.
+
+### ✅ Issue #16 — Cargar diagrama existente
+**Branch:** `feat/issue-16-load-diagram`
+**Completada:** 2026-05-02
+
+**Lo que se hizo:**
+- Creado `actions/diagrams/load.ts` Server Action para obtener el último diagrama por proyecto. En caso de no existir uno en un proyecto autorizado, realiza un "Upsert" inicial insertando un registro en blanco (diagrama vacío).
+- Adaptada ruta principal del Editor (`app/(protected)/editor/[projectId]/page.tsx`) a la carga asíncrona de datos desde Postgres utilizando `loadDiagramAction()`.
+- Se pasaron `initialSQL`, `initialNodes`, y `initialEdges` al layout principal (`EditorLayout.tsx`), asegurando la hidratación y restauración total tanto de código como visual al momento de renderizar por primera vez usando Hooks de estado.
 
 ### ⬜ Issue #17 — Export PNG y SVG
 **Branch:** `feat/issue-17-export-images` | **Completada:** —

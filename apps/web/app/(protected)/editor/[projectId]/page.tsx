@@ -4,6 +4,7 @@ import { eq, and } from 'drizzle-orm'
 import { createClient } from '@/lib/supabase/server'
 import { redirect } from 'next/navigation'
 import { EditorLayout } from '@/components/editor/EditorLayout'
+import { loadDiagramAction } from '@/actions/diagrams/load'
 
 interface EditorPageProps {
   params: Promise<{ projectId: string }>
@@ -48,10 +49,24 @@ export default async function EditorPage({ params }: EditorPageProps) {
     redirect('/dashboard')
   }
 
+  // Load Diagram
+  const { error, data: diagramData } = await loadDiagramAction(projectId)
+  if (error || !diagramData) {
+    redirect('/dashboard')
+  }
+
+  const savedFlow = (diagramData.flowJson as any) ?? {}
+  const initialNodes = savedFlow.nodes ?? []
+  const initialEdges = savedFlow.edges ?? []
+
   return (
     <EditorLayout
       projectName={access.project.name}
       projectId={projectId}
+      initialSQL={diagramData.sourceCode ?? ''}
+      initialNodes={initialNodes}
+      initialEdges={initialEdges}
+      dialect={diagramData.dialect ?? 'postgresql'}
     />
   )
 }
