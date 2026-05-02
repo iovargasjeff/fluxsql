@@ -4,7 +4,7 @@
 > Sirve como memoria del proyecto: qué se hizo, qué decisiones se tomaron, qué hay que tener en cuenta.
 
 **Última actualización:** 2026-05-02
-**Issues completadas:** 43 / 43 🏆
+**Issues completadas:** 46 / 46 🏆
 
 ***
 
@@ -16,6 +16,7 @@
 | v0.2 — Canvas + Editor | #9 al #18 | 10/10 | ✅ Completado |
 | v0.4 — UI/UX Polish | #26 al #38 | 13/13 | ✅ Completado 🏆 |
 | v0.5 — Auth & UX Redesign | #39 al #43 | 5/5 | ✅ Completado 🏆 |
+| v0.6 — Perfil & Colaboración | #44 al #46 | 3/3 | ✅ Completado 🏆 |
 
 ***
 
