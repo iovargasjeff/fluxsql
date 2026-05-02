@@ -2,6 +2,7 @@
 
 import dynamic from 'next/dynamic'
 import { useEditorStore } from '@/store/useEditorStore'
+import { useSyncEditor } from '@/hooks/useSyncEditor'
 
 // CRITICAL: ssr: false — Monaco uses browser APIs (window, document, Worker)
 const MonacoEditor = dynamic(
@@ -18,6 +19,7 @@ const MonacoEditor = dynamic(
 
 export function EditorPanel() {
   const { sqlValue, setSqlValue } = useEditorStore()
+  useSyncEditor('postgresql') // Activates real-time SQL → canvas sync
 
   return (
     <div className="w-full h-full flex flex-col bg-[#1E1E1E]">

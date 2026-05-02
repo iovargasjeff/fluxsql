@@ -4,7 +4,7 @@
 > Sirve como memoria del proyecto: qué se hizo, qué decisiones se tomaron, qué hay que tener en cuenta.
 
 **Última actualización:** 2026-05-02
-**Issues completadas:** 12 / 38
+**Issues completadas:** 13 / 38
 
 ***
 
@@ -13,7 +13,7 @@
 | Milestone | Issues | Completadas | Estado |
 |---|---|---|---|
 | v0.1 — Setup Base | #1 al #8 | 8/8 | ✅ Completado |
-| v0.2 — Canvas + Editor | #9 al #18 | 4/10 | 🔄 En progreso |
+| v0.2 — Canvas + Editor | #9 al #18 | 5/10 | 🔄 En progreso |
 | v0.3 — Realtime + Versiones | #19 al #28 | 0/10 | ⬜ Pendiente |
 | v0.4 — UI/UX Polish | #29 al #38 | 0/10 | ⬜ Pendiente |
 
@@ -237,8 +237,20 @@
 - ✅ El div padre del `<MonacoEditor>` necesita `flex-1 overflow-hidden` y un ancestro con altura explícita (`h-full` + `h-screen` en el layout).
 - ✅ `onChange` puede emitir `undefined` al inicializar — siempre usar `value ?? ''`.
 
-### ⬜ Issue #13 — Sync editor ↔ canvas en tiempo real (debounce 300ms)
-**Branch:** `feat/issue-13-realtime-sync` | **Completada:** —
+### ✅ Issue #13 — Sync editor ↔ canvas en tiempo real (debounce 300ms)
+**Branch:** `feat/issue-13-realtime-sync`
+**Completada:** 2026-05-02
+
+**Lo que se hizo:**
+- Creado `hooks/useDebounce.ts` para aplicar un retraso de 300ms a los cambios de estado.
+- Creado `hooks/useSyncEditor.ts` que se suscribe a `sqlValue` (vía `useEditorStore`), lo debouncea, lo pasa a `parseSQL` y sincroniza `nodes` y `edges`.
+- Preservación de posiciones de nodos implementada leyendo los nodos anteriores del store (`useEditorStore.getState().nodes`) en vez de suscribirse, para evitar el re-render loop, mapeando mediante sus IDs.
+- Añadida dependencia del workspace de `@fluxsql/parsers` a `apps/web` con `pnpm add @fluxsql/parsers@workspace:* --filter web`.
+- Modificado `components/editor/EditorPanel.tsx` para llamar al hook `useSyncEditor('postgresql')`.
+
+**Notas importantes para el futuro:**
+- ✅ Para evitar un infinite loop al re-setear nodos desde un useEffect, es crítico leer `currentNodes` sin que sea dependencia del array, lográndolo mediante `useEditorStore.getState().nodes`.
+- ✅ El manejador del parser previene caídas visuales atrapando errores graves (aunque el parser de por sí los captura), y en caso de DDL en curso inválido no borra el lienzo.
 
 ### ⬜ Issue #14 — Soporte JSON Schema → nodos NoSQL
 **Branch:** `feat/issue-14-parser-json-schema` | **Completada:** —
