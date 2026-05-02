@@ -4,7 +4,7 @@
 > Sirve como memoria del proyecto: qué se hizo, qué decisiones se tomaron, qué hay que tener en cuenta.
 
 **Última actualización:** 2026-05-02
-**Issues completadas:** 17 / 38
+**Issues completadas:** 18 / 38
 
 ***
 
@@ -13,7 +13,7 @@
 | Milestone | Issues | Completadas | Estado |
 |---|---|---|---|
 | v0.1 — Setup Base | #1 al #8 | 8/8 | ✅ Completado |
-| v0.2 — Canvas + Editor | #9 al #18 | 9/10 | 🔄 En progreso |
+| v0.2 — Canvas + Editor | #9 al #18 | 10/10 | ✅ Completado |
 | v0.3 — Realtime + Versiones | #19 al #28 | 0/10 | ⬜ Pendiente |
 | v0.4 — UI/UX Polish | #29 al #38 | 0/10 | ⬜ Pendiente |
 
@@ -296,8 +296,15 @@
 - Filtrado automático con el parámetro `filter` eliminando controles de React Flow y herramientas visuales superpuestas para que solo se incluyan nodos y relaciones.
 - Reemplazado botón estático de la barra de control (`EditorToolbar.tsx`) por este nuevo sub-módulo funcional asegurando la renderización condicionada al contenido.
 
-### ⬜ Issue #18 — Export Mermaid .mmd
-**Branch:** `feat/issue-18-export-mermaid` | **Completada:** —
+### ✅ Issue #18 — Export Mermaid .mmd
+**Branch:** `feat/issue-18-export-mermaid`
+**Completada:** 2026-05-02
+
+**Lo que se hizo:**
+- Creada función iteradora `toMermaid(nodes, edges)` en el módulo común `@fluxsql/parsers` que transforma la estructura de React Flow hacia sintaxis `erDiagram`.
+- Implementado sistema de control de duplicados a través de `Set<string>` para evitar repeticiones visuales y de sentencias en relaciones entre múltiples Primary/Foreign Keys intersecadas.
+- Saneamiento dinámico de los identificadores de tablas y campos (`replace(/\s+/g, '_')`) para evitar que Mermaid arroje errores de parsing visual al enfrentar espacios en el nombre.
+- Opción *"📋 Copiar Mermaid"* en el `ExportMenu.tsx` agregada junto con un utilitario de fallback en caso el navegador no posea permisos sobre el protocolo HTTPS hacia `navigator.clipboard`.
 
 ***
 

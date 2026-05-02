@@ -2,6 +2,9 @@
 import { useEffect, useRef, useState } from "react"
 import { useReactFlow } from "@xyflow/react"
 import { toPng, toSvg } from "html-to-image"
+import { toMermaid } from "@fluxsql/parsers"
+import { useEditorStore } from "@/store/useEditorStore"
+import { toast } from "sonner"
 
 interface ExportMenuProps {
   projectName: string
@@ -72,6 +75,30 @@ export function ExportMenu({ projectName }: ExportMenuProps) {
     downloadDataUrl(dataUrl, fileName)
   }
 
+  async function handleCopyMermaid() {
+    setOpen(false)
+    const { nodes, edges } = useEditorStore.getState()
+    const result = toMermaid(nodes as any, edges as any)
+
+    if (result.isEmpty) {
+      toast.warning("No hay entidades en el canvas para exportar")
+      return
+    }
+
+    try {
+      await navigator.clipboard.writeText(result.code)
+    } catch {
+      // Fallback sin permisos de clipboard:
+      const ta = document.createElement('textarea')
+      ta.value = result.code
+      document.body.appendChild(ta)
+      ta.select()
+      document.execCommand('copy')
+      document.body.removeChild(ta)
+    }
+    toast.success("Código Mermaid copiado al portapapeles")
+  }
+
   function downloadDataUrl(dataUrl: string, fileName: string) {
     const a = document.createElement('a')
     a.href = dataUrl
@@ -103,6 +130,12 @@ export function ExportMenu({ projectName }: ExportMenuProps) {
             className="w-full text-left px-3 py-2 text-sm text-white hover:bg-[#1E2A45] transition-colors border-t border-[#1E2A45]"
           >
             🖼️ Exportar SVG
+          </button>
+          <button
+            onClick={handleCopyMermaid}
+            className="w-full text-left px-3 py-2 text-sm text-white hover:bg-[#1E2A45] transition-colors border-t border-[#1E2A45]"
+          >
+            📋 Copiar Mermaid
           </button>
         </div>
       )}
