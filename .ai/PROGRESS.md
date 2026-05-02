@@ -4,7 +4,7 @@
 > Sirve como memoria del proyecto: qué se hizo, qué decisiones se tomaron, qué hay que tener en cuenta.
 
 **Última actualización:** 2026-05-02
-**Issues completadas:** 7 / 38
+**Issues completadas:** 8 / 38
 
 ***
 
@@ -12,7 +12,7 @@
 
 | Milestone | Issues | Completadas | Estado |
 |---|---|---|---|
-| v0.1 — Setup Base | #1 al #8 | 7/8 | 🔄 En progreso |
+| v0.1 — Setup Base | #1 al #8 | 8/8 | ✅ Completado |
 | v0.2 — Canvas + Editor | #9 al #18 | 0/10 | ⬜ Pendiente |
 | v0.3 — Realtime + Versiones | #19 al #28 | 0/10 | ⬜ Pendiente |
 | v0.4 — UI/UX Polish | #29 al #38 | 0/10 | ⬜ Pendiente |
@@ -150,14 +150,20 @@
 
 ***
 
-### ⬜ Issue #8 — GitHub Actions CI + Snyk
+### ✅ Issue #8 — GitHub Actions CI + Snyk
 **Branch:** `chore/issue-8-ci-snyk`
-**Completada:** —
+**Completada:** 2026-05-02
 
-**Criterios pendientes:**
-- [ ] `.github/workflows/ci.yml` con build + lint
-- [ ] `.github/workflows/snyk.yml` con token de Snyk
-- [ ] Workflows en Push y PR a `main`
+**Lo que se hizo:**
+- Creado `.github/workflows/ci.yml`: pipeline de build y lint con pnpm 10, Node 20, cache del store de pnpm via `hashFiles('**/pnpm-lock.yaml')`, y variables de entorno de Supabase inyectadas desde GitHub Secrets.
+- Creado `.github/workflows/snyk.yml`: escaneo de seguridad con `snyk/actions/node@master`, threshold `--severity-threshold=high --all-projects`, y permisos `contents: read` + `security-events: write`.
+- Confirmado que `pnpm lint` ya existía en el `package.json` raíz como `turbo run lint` y pasa correctamente (exit code 0).
+- `pnpm build` continua pasando en los 3 packages con FULL TURBO cache.
+
+**Notas importantes para el futuro:**
+- ✅ El orden correcto en GitHub Actions es: `pnpm/action-setup` primero, luego `actions/setup-node` — así pnpm ya está disponible para el cache de Node.
+- ✅ Los secrets `NEXT_PUBLIC_SUPABASE_URL`, `NEXT_PUBLIC_SUPABASE_ANON_KEY`, `DATABASE_URL` y `SNYK_TOKEN` deben configurarse en GitHub Settings → Secrets and variables → Actions antes de que el CI funcione en el repo remoto.
+- ✅ `--frozen-lockfile` garantiza que el `pnpm-lock.yaml` commiteado sea el único que se use en CI, evitando instalaciones no deterministas.
 
 ***
 
