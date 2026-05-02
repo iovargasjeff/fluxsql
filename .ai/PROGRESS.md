@@ -4,7 +4,7 @@
 > Sirve como memoria del proyecto: qué se hizo, qué decisiones se tomaron, qué hay que tener en cuenta.
 
 **Última actualización:** 2026-05-02
-**Issues completadas:** 6 / 38
+**Issues completadas:** 7 / 38
 
 ***
 
@@ -12,7 +12,7 @@
 
 | Milestone | Issues | Completadas | Estado |
 |---|---|---|---|
-| v0.1 — Setup Base | #1 al #8 | 6/8 | 🔄 En progreso |
+| v0.1 — Setup Base | #1 al #8 | 7/8 | 🔄 En progreso |
 | v0.2 — Canvas + Editor | #9 al #18 | 0/10 | ⬜ Pendiente |
 | v0.3 — Realtime + Versiones | #19 al #28 | 0/10 | ⬜ Pendiente |
 | v0.4 — UI/UX Polish | #29 al #38 | 0/10 | ⬜ Pendiente |
@@ -134,14 +134,19 @@
 
 ***
 
-### ⬜ Issue #7 — Parser T-SQL Server + MySQL
+### ✅ Issue #7 — Parser T-SQL Server + MySQL
 **Branch:** `feat/issue-7-parser-sqlserver-mysql`
-**Completada:** —
+**Completada:** 2026-05-02
 
-**Criterios pendientes:**
-- [ ] Parser acepta parámetro `dialect`
-- [ ] Soporte de tipos especiales (AUTO_INCREMENT, IDENTITY)
-- [ ] FKs via `ALTER TABLE ... ADD CONSTRAINT`
+**Lo que se hizo:**
+- Implementado el Strategy Pattern para la resolución de dialectos de SQL delegando la orquestación a `src/index.ts`.
+- Añadidos `dialects/mysql.ts` para ingesta de sentencias MySQL: extrae llaves primarias en línea, limpia backticks, detecta constraints locales al final del CREATE TABLE, y marca apropiadamente los flags `isAutoIncrement`. 
+- Añadidos `dialects/sqlserver.ts` para parsing dual de T-SQL: la primera pasada recolecta esquemas limpios e `isIdentity`, y la segunda pasada acopla las dependencias capturando instrucciones exógenas mediante comandos `ALTER TABLE`.
+- El tipado global fue robustecido inyectando los marcadores `isAutoIncrement` y `isIdentity` dentro de la interfaz fundamental `Column`.
+
+**Notas importantes para el futuro:**
+- ✅ SQL Server tiene que ejecutar inexorablemente DOS PASADAS sintácticas de manera secuencial (las asignaciones `ALTER TABLE` corren después de popular el árbol de `nodes`) debido a su propensión a declarar constraints al final del esquema de manera adyacente.
+- ✅ Los `AUTO_INCREMENT` y los `IDENTITY(1,1)` no deben pertenecer a la variable type; son indicadores atómicos extraídos en booleano y disociados visualmente.
 
 ***
 

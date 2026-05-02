@@ -1,5 +1,7 @@
 import { ParseResult } from './types'
 import { parsePostgreSQL } from './dialects/postgresql'
+import { parseMySQL } from './dialects/mysql'
+import { parseSQLServer } from './dialects/sqlserver'
 
 export * from './types'
 
@@ -14,9 +16,12 @@ export function parseSQL(
 
     if (dialect === 'postgresql') {
       return parsePostgreSQL(ddl)
+    } else if (dialect === 'mysql') {
+      return parseMySQL(ddl)
+    } else if (dialect === 'sqlserver') {
+      return parseSQLServer(ddl)
     }
 
-    // Fallback para otros dialectos no implementados todavía
     return {
       nodes: [],
       edges: [],

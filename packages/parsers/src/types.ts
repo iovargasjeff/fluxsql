@@ -23,6 +23,8 @@ export interface Column {
     table: string
     column: string
   }
+  isAutoIncrement?: boolean
+  isIdentity?: boolean
 }
 
 export interface FlowEdge {
