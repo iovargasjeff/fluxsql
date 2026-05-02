@@ -5,10 +5,15 @@ import { ReactFlow, Background, Controls, MarkerType, type Node, type Edge } fro
 import '@xyflow/react/dist/style.css'
 import { useEditorStore } from '@/store/useEditorStore'
 import { TableNode } from './nodes/TableNode'
+import { RelationshipEdge } from './edges/RelationshipEdge'
 
-// CRITICAL: nodeTypes MUST be defined outside the component to avoid re-renders
+// CRITICAL: nodeTypes and edgeTypes MUST be defined outside the component
 const nodeTypes = {
   tableNode: TableNode,
+}
+
+const edgeTypes = {
+  relationship: RelationshipEdge,
 }
 
 const DEMO_NODES: Node[] = [
@@ -49,9 +54,9 @@ const DEMO_EDGES: Edge[] = [
     sourceHandle: 'owner_id-source',
     target: 'users',
     targetHandle: 'id-target',
-    type: 'smoothstep',
+    type: 'relationship',
     animated: false,
-    style: { stroke: '#00D4FF' },
+    style: { stroke: '#00D4FF', strokeWidth: 1.5 },
     markerEnd: {
       type: MarkerType.ArrowClosed,
       width: 16,
@@ -79,6 +84,7 @@ export function Canvas() {
         onNodesChange={onNodesChange}
         onEdgesChange={onEdgesChange}
         nodeTypes={nodeTypes}
+        edgeTypes={edgeTypes}
         fitView
         deleteKeyCode={null}
         proOptions={{ hideAttribution: true }}

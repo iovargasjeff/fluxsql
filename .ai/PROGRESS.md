@@ -4,7 +4,7 @@
 > Sirve como memoria del proyecto: qué se hizo, qué decisiones se tomaron, qué hay que tener en cuenta.
 
 **Última actualización:** 2026-05-02
-**Issues completadas:** 10 / 38
+**Issues completadas:** 11 / 38
 
 ***
 
@@ -13,7 +13,7 @@
 | Milestone | Issues | Completadas | Estado |
 |---|---|---|---|
 | v0.1 — Setup Base | #1 al #8 | 8/8 | ✅ Completado |
-| v0.2 — Canvas + Editor | #9 al #18 | 2/10 | 🔄 En progreso |
+| v0.2 — Canvas + Editor | #9 al #18 | 3/10 | 🔄 En progreso |
 | v0.3 — Realtime + Versiones | #19 al #28 | 0/10 | ⬜ Pendiente |
 | v0.4 — UI/UX Polish | #29 al #38 | 0/10 | ⬜ Pendiente |
 
@@ -202,8 +202,21 @@
 - ✅ `NodeProps<{ data: T }>` causa error de tipos en `@xyflow/react` v12 porque el tipo genérico espera `Record<string, unknown>` a nivel de nodo, no dentro de `data`. La solución es usar `NodeProps` sin genéricos y castear `data` dentro del componente.
 - ✅ `toReactFlowEdge()` del store debe llamarse al convertir los edges del parser antes de guardarlos en Zustand (se conecta en Issue #13).
 
-### ⬜ Issue #11 — Edges de relaciones FK con cardinalidad
-**Branch:** `feat/issue-11-custom-edges` | **Completada:** —
+### ✅ Issue #11 — Edges de relaciones FK con cardinalidad
+**Branch:** `feat/issue-11-custom-edges`
+**Completada:** 2026-05-02
+
+**Lo que se hizo:**
+- Creado `components/editor/edges/RelationshipEdge.tsx` usando `BaseEdge`, `EdgeLabelRenderer` y `getSmoothStepPath` de `@xyflow/react`. Muestra etiqueta `N` en el centro del path con fondo `#0A0F1E` y borde `#1E2A45`.
+- Registrado `edgeTypes = { relationship: RelationshipEdge }` en `Canvas.tsx` fuera del componente (igual que `nodeTypes`).
+- Actualizado el edge demo en `Canvas.tsx`: `type: 'relationship'`, `strokeWidth: 1.5`, `markerEnd: ArrowClosed #00D4FF`.
+- El edge conecta columna-a-columna: `owner_id-source` → `id-target`.
+- `pnpm build` pasa sin errores TypeScript.
+
+**Notas importantes para el futuro:**
+- ✅ `edgeTypes` sigue la misma regla que `nodeTypes`: SIEMPRE definido fuera del componente a nivel de módulo.
+- ✅ `getSmoothStepPath` retorna `[edgePath, labelX, labelY]` — el `labelX/Y` es el punto central del path, ideal para posicionar la etiqueta de cardinalidad.
+- ✅ El tipo del edge en el store debe coincidir con la clave en `edgeTypes`. Al conectar el parser (Issue #13), `toReactFlowEdge()` debe setear `type: 'relationship'`.
 
 ### ⬜ Issue #12 — Monaco Editor con syntax highlighting SQL
 **Branch:** `feat/issue-12-monaco-editor` | **Completada:** —
