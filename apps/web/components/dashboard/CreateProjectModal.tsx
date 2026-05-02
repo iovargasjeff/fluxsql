@@ -34,7 +34,7 @@ export function CreateProjectModal() {
   return (
     <Dialog open={open} onOpenChange={setOpen}>
       <DialogTrigger asChild>
-        <Button className="bg-[#1A6CF6] hover:bg-blue-700 text-white shadow-lg shadow-[#1A6CF6]/20 transition-all hover:-translate-y-[1px]">
+        <Button id="create-project-btn" className="bg-[#1A6CF6] hover:bg-blue-700 text-white shadow-lg shadow-[#1A6CF6]/20 transition-all hover:-translate-y-[1px]">
           <Plus className="w-4 h-4 mr-2" />
           Crear Proyecto
         </Button>

@@ -12,14 +12,16 @@ interface ProjectData {
     ownerId: string
   }
   role: string
+  members?: { id: string; name: string }[]
 }
 
 interface ProjectGridProps {
   projects: ProjectData[]
   currentUserId: string
+  onCreateProject?: () => void
 }
 
-export function ProjectGrid({ projects, currentUserId }: ProjectGridProps) {
+export function ProjectGrid({ projects, currentUserId, onCreateProject }: ProjectGridProps) {
   if (projects.length === 0) {
     return (
       <div className="space-y-6">
@@ -45,14 +47,33 @@ export function ProjectGrid({ projects, currentUserId }: ProjectGridProps) {
         <CreateProjectModal />
       </div>
       <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-4">
-        {projects.map(({ project, role }) => (
+        {projects.map(({ project, role, members }) => (
           <ProjectCard
             key={project.id}
             project={project}
             role={role}
             isOwner={project.ownerId === currentUserId}
+            members={members ?? []}
           />
         ))}
+        
+        <button
+          onClick={onCreateProject || (() => document.getElementById('create-project-btn')?.click())}
+          className="rounded-xl border-2 border-dashed transition-all duration-200 group"
+          style={{ borderColor: '#1E2A45', minHeight: '180px' }}
+          onMouseEnter={e => (e.currentTarget.style.borderColor = '#1A6CF6')}
+          onMouseLeave={e => (e.currentTarget.style.borderColor = '#1E2A45')}>
+          <div className="h-full flex flex-col items-center justify-center gap-3 p-6">
+            <div className="w-12 h-12 rounded-full flex items-center justify-center transition-colors"
+                 style={{ backgroundColor: '#1E2A45' }}>
+              <span className="text-2xl leading-none" style={{ color: '#6B7280' }}>+</span>
+            </div>
+            <div className="text-center">
+              <p className="text-sm font-medium text-white">Crear nuevo proyecto</p>
+              <p className="text-xs mt-1" style={{ color: '#6B7280' }}>Comienza desde cero</p>
+            </div>
+          </div>
+        </button>
       </div>
     </div>
   )

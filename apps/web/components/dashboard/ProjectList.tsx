@@ -13,6 +13,7 @@ interface ProjectData {
     ownerId: string
   }
   role: string
+  members?: { id: string; name: string }[]
 }
 
 export function ProjectList({ projects }: { projects: ProjectData[] }) {
@@ -27,8 +28,8 @@ export function ProjectList({ projects }: { projects: ProjectData[] }) {
         <CreateProjectModal />
       </div>
       <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
-        {projects.map(({ project, role }) => (
-          <ProjectCard key={project.id} project={project} role={role} />
+        {projects.map(({ project, role, members }) => (
+          <ProjectCard key={project.id} project={project} role={role} members={members ?? []} />
         ))}
       </div>
     </div>

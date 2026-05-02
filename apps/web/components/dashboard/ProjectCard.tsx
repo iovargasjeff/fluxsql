@@ -26,6 +26,7 @@ interface Project {
   name: string
   description: string | null
   updatedAt: Date
+  createdAt?: Date
   ownerId: string
 }
 
@@ -33,13 +34,75 @@ interface ProjectCardProps {
   project: Project
   role: string
   isOwner?: boolean
+  members: { id: string; name: string }[]
 }
 
-export function ProjectCard({ project, role, isOwner = false }: ProjectCardProps) {
-  const formattedDate = new Intl.DateTimeFormat('es', {
-    dateStyle: 'medium',
-  }).format(new Date(project.updatedAt))
+function getRelativeDate(date: Date | string): string {
+  const now = new Date()
+  const d = new Date(date)
+  const diffMs = now.getTime() - d.getTime()
+  const diffDays = Math.floor(diffMs / (1000 * 60 * 60 * 24))
+  if (diffDays === 0) return 'hoy'
+  if (diffDays === 1) return 'ayer'
+  if (diffDays < 7) return `hace ${diffDays} días`
+  if (diffDays < 14) return 'hace 1 semana'
+  if (diffDays < 30) return `hace ${Math.floor(diffDays / 7)} semanas`
+  if (diffDays < 60) return 'hace 1 mes'
+  return `hace ${Math.floor(diffDays / 30)} meses`
+}
 
+function getAvatarColor(name: string): string {
+  const colors = ['#1A6CF6','#10B981','#8B5CF6','#F59E0B','#EF4444','#06B6D4']
+  let h = 0
+  for (let i = 0; i < name.length; i++) h = ((h << 5) - h + name.charCodeAt(i)) | 0
+  return colors[Math.abs(h) % colors.length]
+}
+
+function getInitials(name: string): string {
+  if (!name) return '?'
+  return name.split(' ').map(n => n[0]).join('').toUpperCase().slice(0, 2)
+}
+
+function CollaboratorAvatars({ members }: { members: { id: string, name: string }[] }) {
+  const MAX = 3
+  const visible = members.slice(0, MAX)
+  const extra = members.length - MAX
+  return (
+    <div className="flex items-center">
+      {visible.map((m, i) => (
+        <div key={m.id}
+          className="w-6 h-6 rounded-full flex items-center justify-center text-white border-2 flex-shrink-0"
+          style={{
+            backgroundColor: getAvatarColor(m.name || 'Unknown'),
+            borderColor: '#0D1117',
+            marginLeft: i === 0 ? 0 : '-6px',
+            fontSize: '9px',
+            fontWeight: 700,
+            zIndex: MAX - i,
+            position: 'relative',
+          }}>
+          {getInitials(m.name || 'U')}
+        </div>
+      ))}
+      {extra > 0 && (
+        <div className="w-6 h-6 rounded-full flex items-center justify-center border-2 flex-shrink-0"
+          style={{
+            backgroundColor: '#1E2A45',
+            borderColor: '#0D1117',
+            marginLeft: '-6px',
+            fontSize: '9px',
+            fontWeight: 700,
+            color: '#9CA3AF',
+            position: 'relative',
+          }}>
+          +{extra}
+        </div>
+      )}
+    </div>
+  )
+}
+
+export function ProjectCard({ project, role, isOwner = false, members }: ProjectCardProps) {
   return (
     <Link href={`/editor/${project.id}`} className="block h-full">
       <Card className="h-full flex flex-col bg-[#111827] border-[#1E2A45] text-[#E2E8F0] hover:border-[#1A6CF6] hover:shadow-lg hover:shadow-[#1A6CF6]/10 transition-all duration-200 group cursor-pointer hover:-translate-y-1 overflow-hidden">
@@ -58,7 +121,7 @@ export function ProjectCard({ project, role, isOwner = false }: ProjectCardProps
         </div>
 
         <CardHeader className="flex flex-row items-center justify-between space-y-0 pb-2 pt-3">
-          <CardTitle className="text-xl font-bold truncate pr-4">{project.name}</CardTitle>
+          <CardTitle className="text-xl font-bold font-semibold text-white leading-snug pr-4">{project.name}</CardTitle>
           <div className="flex items-center gap-2">
             {role === 'owner' && (
               <div onClick={(e) => e.preventDefault()}>
@@ -90,8 +153,14 @@ export function ProjectCard({ project, role, isOwner = false }: ProjectCardProps
           </div>
         </CardContent>
 
-        <CardFooter className="pt-3 border-t border-[#1E2A45] mt-auto">
-          <p className="text-xs text-[#94A3B8]">Actualizado el {formattedDate}</p>
+        <CardFooter className="pt-3 mt-auto w-full">
+          <div className="flex items-center justify-between mt-3 pt-3 w-full"
+               style={{ borderTop: '1px solid #1E2A45' }}>
+            <CollaboratorAvatars members={members ?? []} />
+            <span className="text-xs" style={{ color: '#6B7280' }}>
+              Actualizado {getRelativeDate(project.updatedAt ?? project.createdAt)}
+            </span>
+          </div>
         </CardFooter>
       </Card>
     </Link>
