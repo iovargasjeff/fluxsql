@@ -7,7 +7,8 @@ import { useEditorStore, toReactFlowEdge } from '@/store/useEditorStore'
 import { useDebounce } from './useDebounce'
 
 export function useSyncEditor(
-  mode: 'postgresql' | 'mysql' | 'sqlserver' | 'json' = 'postgresql'
+  mode: 'postgresql' | 'mysql' | 'sqlserver' | 'json' = 'postgresql',
+  emitSqlChange?: (nodes: Node[], edges: any[]) => void
 ) {
   const sqlValue = useEditorStore((state) => state.sqlValue)
   const setNodesAndEdges = useEditorStore((state) => state.setNodesAndEdges)
@@ -39,11 +40,12 @@ export function useSyncEditor(
       const newEdges = result.edges.map(toReactFlowEdge)
 
       setNodesAndEdges(newNodes, newEdges)
+      emitSqlChange?.(newNodes, newEdges)
     } catch {
       // If parser throws unexpectedly, keep canvas intact
     }
   // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, [debouncedSQL, mode])
+  }, [debouncedSQL, mode, emitSqlChange])
   // CRITICAL: currentNodes must NOT be in deps — causes infinite loop
   // Use useEditorStore.getState().nodes to read without subscribing
 }

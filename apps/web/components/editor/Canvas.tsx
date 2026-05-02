@@ -66,7 +66,11 @@ const DEMO_EDGES: Edge[] = [
   },
 ]
 
-export function Canvas() {
+interface CanvasProps {
+  emitNodeMove?: (nodeId: string, position: { x: number, y: number }) => void
+}
+
+export function Canvas({ emitNodeMove }: CanvasProps = {}) {
   const { nodes, edges, onNodesChange, onEdgesChange, setNodesAndEdges } = useEditorStore()
 
   useEffect(() => {
@@ -83,6 +87,7 @@ export function Canvas() {
         edges={edges}
         onNodesChange={onNodesChange}
         onEdgesChange={onEdgesChange}
+        onNodeDragStop={(_, node) => emitNodeMove?.(node.id, node.position)}
         nodeTypes={nodeTypes}
         edgeTypes={edgeTypes}
         fitView

@@ -7,6 +7,7 @@ import { Canvas } from './Canvas'
 import { EditorToolbar } from './EditorToolbar'
 import { useEditorStore } from '@/store/useEditorStore'
 import { useCollaboratorCursors } from '@/hooks/useCollaboratorCursors'
+import { useRealtimeSync } from '@/hooks/useRealtimeSync'
 import { CollaboratorCursors } from './CollaboratorCursors'
 
 interface EditorLayoutProps {
@@ -32,6 +33,7 @@ function EditorLayoutInner({
   const setNodesAndEdges = useEditorStore((state) => state.setNodesAndEdges)
   
   const { cursors, handleMouseMove } = useCollaboratorCursors(projectId, currentUser.id, currentUser.name)
+  const { emitNodeMove, emitSqlChange } = useRealtimeSync(projectId, currentUser.id)
 
   useEffect(() => {
     if (initialSQL) setSqlValue(initialSQL)
@@ -57,12 +59,12 @@ function EditorLayoutInner({
       <div className="flex-1 grid grid-cols-[40%_60%] min-h-0">
         {/* Left — Monaco SQL Editor */}
         <div className="h-full min-h-0 border-r border-[#1E2A45]">
-          <EditorPanel />
+          <EditorPanel emitSqlChange={emitSqlChange} />
         </div>
 
         {/* Right — React Flow Canvas */}
         <div className="h-full min-h-0 relative">
-          <Canvas />
+          <Canvas emitNodeMove={emitNodeMove} />
         </div>
       </div>
       

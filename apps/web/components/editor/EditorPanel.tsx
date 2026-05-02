@@ -19,10 +19,14 @@ const MonacoEditor = dynamic(
   }
 )
 
-export function EditorPanel() {
+interface EditorPanelProps {
+  emitSqlChange?: (nodes: any[], edges: any[]) => void
+}
+
+export function EditorPanel({ emitSqlChange }: EditorPanelProps = {}) {
   const { sqlValue, setSqlValue } = useEditorStore()
   const [mode, setMode] = useState<EditorMode>('postgresql')
-  useSyncEditor(mode) // Activates real-time SQL/JSON → canvas sync
+  useSyncEditor(mode, emitSqlChange) // Activates real-time SQL/JSON → canvas sync
 
   return (
     <div className="w-full h-full flex flex-col bg-[#1E1E1E]">

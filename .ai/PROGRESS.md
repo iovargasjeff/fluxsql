@@ -4,7 +4,7 @@
 > Sirve como memoria del proyecto: qué se hizo, qué decisiones se tomaron, qué hay que tener en cuenta.
 
 **Última actualización:** 2026-05-02
-**Issues completadas:** 20 / 38
+**Issues completadas:** 21 / 38
 
 ***
 
@@ -14,7 +14,7 @@
 |---|---|---|---|
 | v0.1 — Setup Base | #1 al #8 | 8/8 | ✅ Completado |
 | v0.2 — Canvas + Editor | #9 al #18 | 10/10 | ✅ Completado |
-| v0.3 — Realtime + Versiones | #19 al #28 | 2/10 | 🔄 En progreso |
+| v0.3 — Realtime + Versiones | #19 al #28 | 3/10 | 🔄 En progreso |
 | v0.4 — UI/UX Polish | #29 al #38 | 0/10 | ⬜ Pendiente |
 
 ***
@@ -330,8 +330,15 @@
 - Implementada la traducción de coordenadas React Flow (escala dinámica) usando `screenToFlowPosition` y `flowToScreenPosition` logrando que el cursor mantenga su lugar lógico en el canvas por más que ambos clientes estén operando en diferentes monitores o niveles de Zoom.
 - Renderizado desacoplado dentro de `<CollaboratorCursors />` fijado en la pantalla usando capas superpuestas sin interferir en clics ni en los nodos del sistema.
 
-### ⬜ Issue #21 — Sync de posición de nodos en tiempo real
-**Branch:** `feat/issue-21-realtime-nodes` | **Completada:** —
+### ✅ Issue #21 — Sync de posición de nodos en tiempo real
+**Branch:** `feat/issue-21-realtime-nodes`
+**Completada:** 2026-05-02
+
+**Lo que se hizo:**
+- Creado hook `useRealtimeSync` que se suscribe al mismo canal `room-{projectId}` que `Presence` (issue #20), usando la sub-tecnología de Supabase **Broadcast**.
+- Establecidos dos handlers: uno para mover nodos (`node_move`) arrastrados, y otro para reconstruir nodos (`sql_change`) de un script alterado por otro usuario.
+- Implementado el **Anti-Loop** principal (`if (payload.senderId === userId) return`) para evitar que el emisor reciba su propia actualización y se reinicien las posiciones.
+- Modificado `<Canvas>` para atrapar el evento `onNodeDragStop` (al soltar), evitando un castigo a la red provocado por enviar actualizaciones a 60fps usando `onNodeDrag`.
 
 ### ⬜ Issue #22 — Version control: commit con mensaje
 **Branch:** `feat/issue-22-version-commit` | **Completada:** —
