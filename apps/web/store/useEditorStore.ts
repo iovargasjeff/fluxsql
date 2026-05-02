@@ -9,6 +9,15 @@ import {
   type EdgeChange,
 } from '@xyflow/react'
 
+const SQL_PLACEHOLDER = `-- FluxSQL Editor
+-- Escribe tu DDL aquí
+
+CREATE TABLE users (
+  id UUID PRIMARY KEY,
+  email TEXT NOT NULL
+);
+`
+
 interface EditorStore {
   nodes: Node[]
   edges: Edge[]
@@ -27,7 +36,7 @@ export const useEditorStore = create<EditorStore>((set) => ({
   onEdgesChange: (changes) =>
     set((state) => ({ edges: applyEdgeChanges(changes, state.edges) })),
   setNodesAndEdges: (nodes, edges) => set({ nodes, edges }),
-  sqlValue: '',
+  sqlValue: SQL_PLACEHOLDER,
   setSqlValue: (value) => set({ sqlValue: value }),
 }))
 
@@ -38,6 +47,7 @@ export const useEditorStore = create<EditorStore>((set) => ({
 export function toReactFlowEdge(edge: Edge): Edge {
   return {
     ...edge,
+    type: 'relationship',
     markerEnd: {
       type: MarkerType.ArrowClosed,
       width: 16,

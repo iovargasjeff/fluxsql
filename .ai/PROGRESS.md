@@ -4,7 +4,7 @@
 > Sirve como memoria del proyecto: qué se hizo, qué decisiones se tomaron, qué hay que tener en cuenta.
 
 **Última actualización:** 2026-05-02
-**Issues completadas:** 11 / 38
+**Issues completadas:** 12 / 38
 
 ***
 
@@ -13,7 +13,7 @@
 | Milestone | Issues | Completadas | Estado |
 |---|---|---|---|
 | v0.1 — Setup Base | #1 al #8 | 8/8 | ✅ Completado |
-| v0.2 — Canvas + Editor | #9 al #18 | 3/10 | 🔄 En progreso |
+| v0.2 — Canvas + Editor | #9 al #18 | 4/10 | 🔄 En progreso |
 | v0.3 — Realtime + Versiones | #19 al #28 | 0/10 | ⬜ Pendiente |
 | v0.4 — UI/UX Polish | #29 al #38 | 0/10 | ⬜ Pendiente |
 
@@ -218,8 +218,24 @@
 - ✅ `getSmoothStepPath` retorna `[edgePath, labelX, labelY]` — el `labelX/Y` es el punto central del path, ideal para posicionar la etiqueta de cardinalidad.
 - ✅ El tipo del edge en el store debe coincidir con la clave en `edgeTypes`. Al conectar el parser (Issue #13), `toReactFlowEdge()` debe setear `type: 'relationship'`.
 
-### ⬜ Issue #12 — Monaco Editor con syntax highlighting SQL
-**Branch:** `feat/issue-12-monaco-editor` | **Completada:** —
+### ✅ Issue #12 — Monaco Editor con syntax highlighting SQL
+**Branch:** `feat/issue-12-monaco-editor`
+**Completada:** 2026-05-02
+
+**Lo que se hizo:**
+- Instalado `@monaco-editor/react` en el paquete `web`.
+- Creado `components/editor/EditorPanel.tsx` con `dynamic(() => import('@monaco-editor/react'), { ssr: false })` para evitar el error `self is not defined` en SSR.
+- Skeleton de carga con `animate-pulse` mientras Monaco carga el bundle (~2MB).
+- Tab bar con nombre `schema.sql` en color `#9CDCFE` (VS Code style).
+- Opciones: `minimap: false`, `fontSize: 13`, `wordWrap: on`, `scrollBeyondLastLine: false`, `padding: { top: 16, bottom: 16 }`.
+- Actualizado `EditorLayout.tsx`: reemplazado placeholder por `<EditorPanel />` con `h-full min-h-0` para que Monaco llene el panel.
+- Actualizado `useEditorStore.ts`: `sqlValue` inicializa con `SQL_PLACEHOLDER` en lugar de string vacío.
+- `toReactFlowEdge()` actualizado para inyectar `type: 'relationship'` junto al `markerEnd`.
+
+**Notas importantes para el futuro:**
+- ✅ `dynamic(() => import('@monaco-editor/react'), { ssr: false })` es OBLIGATORIO. Sin `ssr: false`, Next.js intenta ejecutar Monaco en el servidor y falla con `self is not defined`.
+- ✅ El div padre del `<MonacoEditor>` necesita `flex-1 overflow-hidden` y un ancestro con altura explícita (`h-full` + `h-screen` en el layout).
+- ✅ `onChange` puede emitir `undefined` al inicializar — siempre usar `value ?? ''`.
 
 ### ⬜ Issue #13 — Sync editor ↔ canvas en tiempo real (debounce 300ms)
 **Branch:** `feat/issue-13-realtime-sync` | **Completada:** —

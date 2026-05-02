@@ -1,5 +1,6 @@
 'use client'
 
+import { EditorPanel } from './EditorPanel'
 import { Canvas } from './Canvas'
 
 interface EditorLayoutProps {
@@ -22,17 +23,9 @@ export function EditorLayout({ projectName, projectId }: EditorLayoutProps) {
 
       {/* Main — split 40/60 */}
       <div className="flex-1 grid grid-cols-[40%_60%] min-h-0">
-        {/* Left — SQL Editor (placeholder until Issue #12) */}
-        <div className="border-r border-[#1E2A45] bg-[#0D1117] flex flex-col">
-          <div className="border-b border-[#1E2A45] px-4 py-2">
-            <span className="text-xs text-[#94A3B8] font-semibold uppercase tracking-wider">SQL Editor</span>
-          </div>
-          <div className="flex-1 flex items-center justify-center">
-            <p className="text-[#94A3B8] text-sm text-center px-6">
-              El editor Monaco se integrará en la Issue #12.<br />
-              <span className="text-xs mt-1 block">Por ahora el canvas opera con datos de demo.</span>
-            </p>
-          </div>
+        {/* Left — Monaco SQL Editor */}
+        <div className="h-full min-h-0 border-r border-[#1E2A45]">
+          <EditorPanel />
         </div>
 
         {/* Right — React Flow Canvas */}
