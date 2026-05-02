@@ -461,12 +461,14 @@
 **Completada:** 2026-05-02
 
 **Lo que se hizo:**
-- Instalado `next-themes`.
-- Configurado `ThemeProvider` en `layout.tsx` con `suppressHydrationWarning`.
-- Verificado que `@custom-variant dark` ya existía en `globals.css` (Tailwind v4).
-- Creado `ThemeToggle.tsx` con patrón `mounted` para evitar hidratación.
-- Integrado `ThemeToggle` en la toolbar del editor.
-- Actualizado `EditorPanel.tsx` y `DiffViewerModal.tsx` para cambiar dinámicamente el tema de Monaco Editor (`vs-dark`/`vs-light`).
+- Instalado `next-themes` en el workspace `web`.
+- Creado `ThemeToggle.tsx` en `apps/web/components` para conmutar el tema del sistema en cliente.
+- Agregado el componente `ThemeToggle` al final de `EditorToolbar`.
+- Modificados los componentes con Monaco (`EditorPanel.tsx` y `DiffViewerModal.tsx`) para usar el hook `useTheme` y reaccionar a `resolvedTheme`.
+
+**Notas importantes para el futuro:**
+- ✅ `suppressHydrationWarning` se encuentra activo en `<html>` de `layout.tsx` junto a su respectivo `ThemeProvider` evitando flash y fallas de desajuste.
+- ✅ Monaco Editor detecta activamente `resolvedTheme` evitando dependencias inconsistentes como el estado pre-mount.
 
 ### ⬜ Issue #34 — Toolbar del editor con tooltips
 **Branch:** `feat/issue-34-toolbar` | **Completada:** —

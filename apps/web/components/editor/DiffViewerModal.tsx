@@ -1,6 +1,7 @@
 'use client'
 
 import dynamic from 'next/dynamic'
+import { useTheme } from 'next-themes'
 import {
   Dialog,
   DialogContent,
@@ -8,7 +9,6 @@ import {
   DialogTitle,
 } from '@/components/ui/dialog'
 import { CheckCircle2 } from 'lucide-react'
-import { useTheme } from 'next-themes'
 
 // CRITICAL: ssr: false — Monaco uses browser APIs
 const DiffEditor = dynamic(
@@ -34,8 +34,8 @@ export function DiffViewerModal({
   modifiedCode,
   versionLabel,
 }: DiffViewerModalProps) {
+  const { resolvedTheme } = useTheme()
   const hasDiff = originalCode.trim() !== modifiedCode.trim()
-  const { theme } = useTheme()
 
   return (
     <Dialog open={open} onOpenChange={(val) => !val && onClose()}>
@@ -57,7 +57,7 @@ export function DiffViewerModal({
               original={originalCode}
               modified={modifiedCode}
               language="sql"
-              theme={theme === 'dark' ? 'vs-dark' : 'vs-light'}
+              theme={resolvedTheme === 'dark' ? 'vs-dark' : 'light'}
               options={{
                 readOnly: true,
                 renderSideBySide: true,
