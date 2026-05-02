@@ -4,7 +4,7 @@
 > Sirve como memoria del proyecto: qué se hizo, qué decisiones se tomaron, qué hay que tener en cuenta.
 
 **Última actualización:** 2026-05-02
-**Issues completadas:** 9 / 38
+**Issues completadas:** 10 / 38
 
 ***
 
@@ -13,7 +13,7 @@
 | Milestone | Issues | Completadas | Estado |
 |---|---|---|---|
 | v0.1 — Setup Base | #1 al #8 | 8/8 | ✅ Completado |
-| v0.2 — Canvas + Editor | #9 al #18 | 1/10 | 🔄 En progreso |
+| v0.2 — Canvas + Editor | #9 al #18 | 2/10 | 🔄 En progreso |
 | v0.3 — Realtime + Versiones | #19 al #28 | 0/10 | ⬜ Pendiente |
 | v0.4 — UI/UX Polish | #29 al #38 | 0/10 | ⬜ Pendiente |
 
@@ -187,8 +187,20 @@
 - ✅ El contenedor padre del `<ReactFlow>` necesita height explícita: usar `h-full` con ancestro `h-screen` o `flex-1 min-h-0`.
 - ✅ `@xyflow/react/dist/style.css` se importa en `Canvas.tsx` — sin este import los handles y controles no se renderizan.
 
-### ⬜ Issue #10 — Nodos de tabla personalizados (columnas, tipos, PK/FK)
-**Branch:** `feat/issue-10-custom-nodes` | **Completada:** —
+### ✅ Issue #10 — Nodos de tabla personalizados (columnas, tipos, PK/FK)
+**Branch:** `feat/issue-10-custom-nodes`
+**Completada:** 2026-05-02
+
+**Lo que se hizo:**
+- Reescrito `TableNode.tsx` usando `NodeProps` sin genérico anidado (cast de `data` interno) para pasar el control de tipos estricto de TypeScript.
+- Añadidos íconos `KeyRound` (amarillo) para PK y `Link` (gris) para FK desde `lucide-react`.
+- Handles `opacity-0 group-hover:opacity-100` con `transition-opacity` para visibilidad contextual sin ruido visual.
+- Actualizado `Canvas.tsx` con columnas reales en los nodos demo y `markerEnd: ArrowClosed #00D4FF` en el edge FK.
+- Añadido helper `toReactFlowEdge()` en `useEditorStore.ts` que inyecta `markerEnd` en los edges del parser.
+
+**Notas importantes para el futuro:**
+- ✅ `NodeProps<{ data: T }>` causa error de tipos en `@xyflow/react` v12 porque el tipo genérico espera `Record<string, unknown>` a nivel de nodo, no dentro de `data`. La solución es usar `NodeProps` sin genéricos y castear `data` dentro del componente.
+- ✅ `toReactFlowEdge()` del store debe llamarse al convertir los edges del parser antes de guardarlos en Zustand (se conecta en Issue #13).
 
 ### ⬜ Issue #11 — Edges de relaciones FK con cardinalidad
 **Branch:** `feat/issue-11-custom-edges` | **Completada:** —

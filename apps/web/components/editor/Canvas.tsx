@@ -1,7 +1,7 @@
 'use client'
 
 import { useEffect } from 'react'
-import { ReactFlow, Background, Controls, type Node, type Edge } from '@xyflow/react'
+import { ReactFlow, Background, Controls, MarkerType, type Node, type Edge } from '@xyflow/react'
 import '@xyflow/react/dist/style.css'
 import { useEditorStore } from '@/store/useEditorStore'
 import { TableNode } from './nodes/TableNode'
@@ -15,7 +15,7 @@ const DEMO_NODES: Node[] = [
   {
     id: 'users',
     type: 'tableNode',
-    position: { x: 100, y: 120 },
+    position: { x: 80, y: 100 },
     data: {
       tableName: 'users',
       columns: [
@@ -29,7 +29,7 @@ const DEMO_NODES: Node[] = [
   {
     id: 'projects',
     type: 'tableNode',
-    position: { x: 460, y: 120 },
+    position: { x: 460, y: 100 },
     data: {
       tableName: 'projects',
       columns: [
@@ -46,10 +46,18 @@ const DEMO_EDGES: Edge[] = [
   {
     id: 'fk-projects-users',
     source: 'projects',
+    sourceHandle: 'owner_id-source',
     target: 'users',
+    targetHandle: 'id-target',
     type: 'smoothstep',
     animated: false,
     style: { stroke: '#00D4FF' },
+    markerEnd: {
+      type: MarkerType.ArrowClosed,
+      width: 16,
+      height: 16,
+      color: '#00D4FF',
+    },
   },
 ]
 
@@ -60,7 +68,7 @@ export function Canvas() {
     if (nodes.length === 0) {
       setNodesAndEdges(DEMO_NODES, DEMO_EDGES)
     }
-  // eslint-disable-next-line react-hooks/exhaustive-deps
+    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [])
 
   return (

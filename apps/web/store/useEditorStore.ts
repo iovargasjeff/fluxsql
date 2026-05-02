@@ -2,6 +2,7 @@ import { create } from 'zustand'
 import {
   applyNodeChanges,
   applyEdgeChanges,
+  MarkerType,
   type Node,
   type Edge,
   type NodeChange,
@@ -29,3 +30,19 @@ export const useEditorStore = create<EditorStore>((set) => ({
   sqlValue: '',
   setSqlValue: (value) => set({ sqlValue: value }),
 }))
+
+/**
+ * Stamps a parser-generated FlowEdge with the markerEnd arrow config.
+ * Call this when converting ParseResult.edges → React Flow edges.
+ */
+export function toReactFlowEdge(edge: Edge): Edge {
+  return {
+    ...edge,
+    markerEnd: {
+      type: MarkerType.ArrowClosed,
+      width: 16,
+      height: 16,
+      color: '#00D4FF',
+    },
+  }
+}

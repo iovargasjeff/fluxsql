@@ -1,6 +1,7 @@
 'use client'
 
-import { Handle, Position } from '@xyflow/react'
+import { Handle, Position, type NodeProps } from '@xyflow/react'
+import { KeyRound, Link } from 'lucide-react'
 
 interface Column {
   name: string
@@ -9,60 +10,61 @@ interface Column {
   isForeignKey?: boolean
 }
 
-interface TableNodeData {
+export interface TableNodeData extends Record<string, unknown> {
   tableName: string
   columns: Column[]
-  [key: string]: unknown
 }
 
-interface TableNodeProps {
-  data: TableNodeData
-}
-
-export function TableNode({ data }: TableNodeProps) {
-  const { tableName, columns = [] } = data
+export function TableNode({ data }: NodeProps) {
+  const { tableName, columns: rawCols } = data as TableNodeData
+  const columns: Column[] = Array.isArray(rawCols) ? rawCols : []
 
   return (
-    <div className="rounded-lg overflow-hidden border border-[#1E2A45] shadow-xl shadow-black/40 min-w-[220px]">
+    <div className="min-w-[220px] rounded-lg overflow-hidden border border-[#1E2A45] shadow-xl shadow-black/40">
       {/* Header */}
-      <div className="bg-[#1A6CF6] px-3 py-2 flex items-center gap-2">
-        <span className="text-white font-bold text-sm tracking-wide truncate">{tableName}</span>
+      <div className="bg-[#1A6CF6] px-3 py-2">
+        <span className="text-white text-sm font-semibold tracking-wide truncate block">
+          {tableName}
+        </span>
       </div>
 
       {/* Columns */}
       <div className="bg-[#111827] divide-y divide-[#1E2A45]">
         {columns.length === 0 ? (
-          <div className="px-3 py-2 text-[#94A3B8] text-xs italic">Sin columnas</div>
+          <div className="px-3 py-2 text-[#6B7280] text-xs italic">Sin columnas</div>
         ) : (
           columns.map((col, idx) => (
-            <div key={idx} className="relative px-3 py-1.5 flex items-center gap-2 group">
-              {/* Left handle (target) */}
+            <div key={idx} className="relative flex items-center gap-2 px-3 py-1.5 group">
+              {/* Left handle (target) — hidden until hover */}
               <Handle
                 type="target"
                 position={Position.Left}
                 id={`${col.name}-target`}
-                className="!w-2 !h-2 !bg-[#1A6CF6] !border-[#1E2A45]"
+                className="!w-2 !h-2 !bg-[#1A6CF6] !border-0 opacity-0 group-hover:opacity-100 transition-opacity"
                 style={{ top: '50%' }}
               />
 
-              {/* PK / FK badge */}
+              {/* PK / FK icon */}
               {col.isPrimaryKey ? (
-                <span className="text-yellow-400 text-xs font-bold shrink-0" title="Primary Key">PK</span>
+                <KeyRound size={12} className="text-yellow-400 shrink-0" />
               ) : col.isForeignKey ? (
-                <span className="text-[#94A3B8] text-xs font-bold shrink-0" title="Foreign Key">FK</span>
+                <Link size={12} className="text-[#6B7280] shrink-0" />
               ) : (
-                <span className="w-5 shrink-0" />
+                <span className="w-3 shrink-0" />
               )}
 
-              <span className="text-[#E2E8F0] text-xs truncate flex-1">{col.name}</span>
-              <span className="text-[#94A3B8] text-xs shrink-0 font-mono">{col.type}</span>
+              {/* Column name */}
+              <span className="text-[#E5E7EB] text-xs flex-1 truncate">{col.name}</span>
 
-              {/* Right handle (source) */}
+              {/* Column type */}
+              <span className="text-[#6B7280] text-xs shrink-0 font-mono">{col.type}</span>
+
+              {/* Right handle (source) — hidden until hover */}
               <Handle
                 type="source"
                 position={Position.Right}
                 id={`${col.name}-source`}
-                className="!w-2 !h-2 !bg-[#00D4FF] !border-[#1E2A45]"
+                className="!w-2 !h-2 !bg-[#00D4FF] !border-0 opacity-0 group-hover:opacity-100 transition-opacity"
                 style={{ top: '50%' }}
               />
             </div>
