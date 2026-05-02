@@ -10,6 +10,7 @@ import { useEditorStore } from '@/store/useEditorStore'
 import { useCollaboratorCursors } from '@/hooks/useCollaboratorCursors'
 import { useRealtimeSync } from '@/hooks/useRealtimeSync'
 import { CollaboratorCursors } from './CollaboratorCursors'
+import { OnboardingTour } from '@/components/editor/OnboardingTour'
 
 interface EditorLayoutProps {
   projectName: string
@@ -70,6 +71,7 @@ function EditorLayoutInner({
       className="h-screen flex flex-col bg-[#0A0F1E] text-white overflow-hidden relative"
       onMouseMove={handleMouseMove}
     >
+      <OnboardingTour />
       {/* Header with Toolbar */}
       <EditorToolbar projectId={projectId} projectName={projectName} dialect={dialect} initialIsPublic={initialIsPublic} />
 

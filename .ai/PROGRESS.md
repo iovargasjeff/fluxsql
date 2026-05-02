@@ -4,7 +4,7 @@
 > Sirve como memoria del proyecto: qué se hizo, qué decisiones se tomaron, qué hay que tener en cuenta.
 
 **Última actualización:** 2026-05-02
-**Issues completadas:** 35 / 38
+**Issues completadas:** 36 / 38
 
 ***
 
@@ -15,7 +15,7 @@
 | v0.1 — Setup Base | #1 al #8 | 8/8 | ✅ Completado |
 | v0.2 — Canvas + Editor | #9 al #18 | 10/10 | ✅ Completado |
 | v0.3 — Realtime + Versiones | #19 al #25 | 7/7 | ✅ Completado |
-| v0.4 — UI/UX Polish | #26 al #38 | 10/10 | ✅ Completado |
+| v0.4 — UI/UX Polish | #26 al #38 | 11/13 | 🔄 En progreso |
 
 ***
 
@@ -496,8 +496,19 @@
 - ✅ Inicializar hooks atados a variables de `window` en valor `false` durante la carga Server-Side previene CLS, evitando parpadeos bruscos para el usuario.
 - ✅ Cuando se usa renderizado dinámico en cuadrículas compartidas, deshabilitar un panel e integrar lógica de grid/bloques aísla su comportamiento evitando deformaciones inesperadas de las proporciones.
 
-### ⬜ Issue #36 — Onboarding tour (primera vez)
-**Branch:** `feat/issue-36-onboarding` | **Completada:** —
+### ✅ Issue #36 — Onboarding tour (primera vez)
+**Branch:** `feat/issue-36-onboarding`
+**Completada:** 2026-05-02
+
+**Lo que se hizo:**
+- Creado el componente interactivo puro `OnboardingTour.tsx` basado nativamente en el estado de React (`useState`) libre de dependencias externas para garantizar el mejor performance.
+- Desplegada la lógica de guardado de visitas mediante la bandera local `dbcanvas_has_seen_tutorial` dentro del API `localStorage`.
+- Implementado el retraso estratégico de 1200ms al montar usando `setTimeout` concediendo al `<EditorLayout>` suficiente tiempo de hidratación de componentes visuales antes de sobreponer el pop-up de bienvenida a través de `z-50`.
+- El componente `OnboardingTour` fue incrustado de manera imperativa como nodo hijo principal en la raíz de `EditorLayout.tsx`.
+
+**Notas importantes para el futuro:**
+- ✅ Validar APIs del navegador (`localStorage`) siempre utilizando bloques `try/catch`, esto con el fin de evitar un quiebre de la renderización en el Client Component por bloqueos de privacidad configurados en los agentes de usuario.
+- ✅ Los overlays inmersivos (`fixed inset-0`) deben usar `pointer-events-none` en el contenedor de los nodos transparentes y habilitarlos devuelta (`pointer-events-auto`) únicamente para la caja interactiva asegurando que el cierre clickeando en el espacio ciego sí funcione.
 
 ### ⬜ Issue #37 — Animaciones con Framer Motion
 **Branch:** `feat/issue-37-animations` | **Completada:** —
