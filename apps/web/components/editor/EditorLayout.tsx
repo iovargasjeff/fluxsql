@@ -18,6 +18,7 @@ interface EditorLayoutProps {
   initialEdges?: any[]
   dialect?: string
   currentUser: { id: string, name: string }
+  initialIsPublic?: boolean
 }
 
 function EditorLayoutInner({
@@ -27,7 +28,8 @@ function EditorLayoutInner({
   initialNodes = [],
   initialEdges = [],
   dialect = 'postgresql',
-  currentUser
+  currentUser,
+  initialIsPublic = false
 }: EditorLayoutProps) {
   const setSqlValue = useEditorStore((state) => state.setSqlValue)
   const setNodesAndEdges = useEditorStore((state) => state.setNodesAndEdges)
@@ -53,7 +55,7 @@ function EditorLayoutInner({
       onMouseMove={handleMouseMove}
     >
       {/* Header with Toolbar */}
-      <EditorToolbar projectId={projectId} projectName={projectName} dialect={dialect} />
+      <EditorToolbar projectId={projectId} projectName={projectName} dialect={dialect} initialIsPublic={initialIsPublic} />
 
       {/* Main — split 40/60 */}
       <div className="flex-1 grid grid-cols-[40%_60%] min-h-0">

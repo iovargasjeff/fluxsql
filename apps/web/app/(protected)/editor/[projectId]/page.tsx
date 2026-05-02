@@ -73,6 +73,7 @@ export default async function EditorPage({ params }: EditorPageProps) {
       initialEdges={initialEdges}
       dialect={diagramData.dialect ?? 'postgresql'}
       currentUser={currentUser}
+      initialIsPublic={diagramData.isPublic ?? false}
     />
   )
 }

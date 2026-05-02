@@ -11,14 +11,16 @@ import { VersionHistorySheet } from './VersionHistorySheet'
 import { restoreVersionAction } from '@/actions/versions/restore'
 import { getVersionDetailAction } from '@/actions/versions/detail'
 import { DiffViewerModal } from './DiffViewerModal'
+import { PublicShareToggle } from './PublicShareToggle'
 
 interface EditorToolbarProps {
   projectId: string
   projectName: string
   dialect?: string
+  initialIsPublic?: boolean
 }
 
-export function EditorToolbar({ projectId, projectName, dialect = 'postgresql' }: EditorToolbarProps) {
+export function EditorToolbar({ projectId, projectName, dialect = 'postgresql', initialIsPublic = false }: EditorToolbarProps) {
   const { toObject } = useReactFlow()
   const sqlValue = useEditorStore((state) => state.sqlValue)
   const [saving, setSaving] = useState(false)
@@ -99,6 +101,7 @@ export function EditorToolbar({ projectId, projectName, dialect = 'postgresql' }
         <span className="ml-auto text-xs text-[#94A3B8] font-mono hidden md:block">{projectId}</span>
         
         <div className="flex items-center gap-2 ml-4">
+          <PublicShareToggle diagramId={projectId} initialIsPublic={initialIsPublic} />
           <VersionHistorySheet projectId={projectId} onRestore={handleRestore} onCompare={handleCompare} />
           <CommitModal projectId={projectId} />
           <button

@@ -4,7 +4,7 @@
 > Sirve como memoria del proyecto: qué se hizo, qué decisiones se tomaron, qué hay que tener en cuenta.
 
 **Última actualización:** 2026-05-02
-**Issues completadas:** 25 / 38
+**Issues completadas:** 26 / 38
 
 ***
 
@@ -15,7 +15,7 @@
 | v0.1 — Setup Base | #1 al #8 | 8/8 | ✅ Completado |
 | v0.2 — Canvas + Editor | #9 al #18 | 10/10 | ✅ Completado |
 | v0.3 — Realtime + Versiones | #19 al #25 | 7/7 | ✅ Completado |
-| v0.4 — UI/UX Polish | #29 al #38 | 0/10 | ⬜ Pendiente |
+| v0.4 — UI/UX Polish | #29 al #38 | 1/10 | 🔄 En progreso |
 
 ***
 
@@ -384,8 +384,14 @@
 
 ## Milestone v0.4 — UI/UX Polish (Pendiente)
 
-### ⬜ Issue #26 — Link público de solo lectura
-**Branch:** `feat/issue-26-public-link` | **Completada:** —
+### ✅ Issue #26 — Link público de solo lectura
+**Branch:** `feat/issue-26-public-link`
+**Completada:** 2026-05-02
+
+**Lo que se hizo:**
+- Creada Server Action `togglePublicAction` que verifica autenticidad del autor de un esquema para alternar el campo `is_public` de la base de datos Supabase en el diagrama seleccionado.
+- Componente dinámico UI interactivo `<PublicShareToggle>` incorporado en el `<EditorToolbar>` a modo de Toggle con validadores visuales para generar links y copiarlos en el portapapeles del navegador automáticamente.
+- Desplegada la ruta `/public/[id]/page.tsx` sin heredar los layouts autenticados. Retorna un 404 nativo en diagramas privados, pero renderiza exitosamente los esquemas públicos montando una versión inhabilitada para arrastres, conexiones y edición (`PublicDiagramView`).
 
 ### ⬜ Issue #27 — Búsqueda de tablas (Command Palette Ctrl+K)
 **Branch:** `feat/issue-27-command-palette` | **Completada:** —
