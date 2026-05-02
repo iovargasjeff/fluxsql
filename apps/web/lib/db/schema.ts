@@ -1,4 +1,4 @@
-import { pgTable, uuid, text, timestamp, boolean, jsonb, check, unique } from 'drizzle-orm/pg-core';
+import { pgTable, uuid, text, timestamp, boolean, jsonb, check, unique, integer } from 'drizzle-orm/pg-core';
 import { sql } from 'drizzle-orm';
 
 export const users = pgTable('users', {
@@ -48,9 +48,10 @@ export const diagrams = pgTable('diagrams', {
 export const diagramVersions = pgTable('diagram_versions', {
   id: uuid('id').primaryKey().defaultRandom(),
   diagramId: uuid('diagram_id').notNull().references(() => diagrams.id, { onDelete: 'cascade' }),
-  sourceCode: text('source_code'),
-  flowJson: jsonb('flow_json'),
-  commitMsg: text('commit_msg'),
-  authorId: uuid('author_id').notNull().references(() => users.id, { onDelete: 'cascade' }),
+  versionNumber: integer('version_number').notNull(),
+  flowJson: jsonb('flow_json').notNull(),
+  sqlContent: text('sql_content').default(''),
+  message: text('message').notNull(),
+  userId: uuid('user_id').notNull().references(() => users.id, { onDelete: 'cascade' }),
   createdAt: timestamp('created_at', { withTimezone: true }).defaultNow().notNull(),
 });
