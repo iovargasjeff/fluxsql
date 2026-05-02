@@ -4,7 +4,7 @@
 > Sirve como memoria del proyecto: qué se hizo, qué decisiones se tomaron, qué hay que tener en cuenta.
 
 **Última actualización:** 2026-05-02
-**Issues completadas:** 18 / 38
+**Issues completadas:** 19 / 38
 
 ***
 
@@ -14,7 +14,7 @@
 |---|---|---|---|
 | v0.1 — Setup Base | #1 al #8 | 8/8 | ✅ Completado |
 | v0.2 — Canvas + Editor | #9 al #18 | 10/10 | ✅ Completado |
-| v0.3 — Realtime + Versiones | #19 al #28 | 0/10 | ⬜ Pendiente |
+| v0.3 — Realtime + Versiones | #19 al #28 | 1/10 | 🔄 En progreso |
 | v0.4 — UI/UX Polish | #29 al #38 | 0/10 | ⬜ Pendiente |
 
 ***
@@ -310,8 +310,15 @@
 
 ## Milestone v0.3 — Realtime + Versiones
 
-### ⬜ Issue #19 — Invitar colaborador al proyecto
-**Branch:** `feat/issue-19-invite-collaborator` | **Completada:** —
+### ✅ Issue #19 — Invitar colaborador al proyecto
+**Branch:** `feat/issue-19-invite-collaborator`
+**Completada:** 2026-05-02
+
+**Lo que se hizo:**
+- Creado Server Action `inviteCollaboratorAction` que implementa la lógica de autorización validando que el emisor sea el Owner del proyecto.
+- Se verificó la existencia del correo objetivo a través de la tabla auxiliar `profiles`, impidiendo la adición de usuarios en crudo no registrados.
+- Creado flujo de exclusión impidiendo duplicaciones en la tabla `collaborators` y el auto-invitado de dueños.
+- Implementado UI interactivo con Shadcn `Dialog` dentro de los Project Cards del Dashboard, controlando el paso de la propagación del click hacia el Link contenedor (`e.preventDefault()`, `e.stopPropagation()`).
 
 ### ⬜ Issue #20 — Realtime: cursores de colaboradores
 **Branch:** `feat/issue-20-realtime-cursors` | **Completada:** —
