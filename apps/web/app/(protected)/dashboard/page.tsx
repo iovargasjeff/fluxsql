@@ -1,5 +1,4 @@
 import { getProjectsByUser } from '@/actions/projects/list'
-import { ProjectGrid } from '@/components/dashboard/ProjectGrid'
 import { logoutAction } from '@/actions/auth/logout'
 import { Button } from '@/components/ui/button'
 import { LogOut, DatabaseZap } from 'lucide-react'
@@ -8,6 +7,7 @@ import { db } from '@/lib/db'
 import { users } from '@/lib/db/schema'
 import { eq } from 'drizzle-orm'
 import { DashboardSidebar } from '@/components/dashboard/DashboardSidebar'
+import { DashboardClient } from '@/components/dashboard/DashboardClient'
 import { Suspense } from 'react'
 
 export default async function DashboardPage() {
@@ -54,7 +54,7 @@ export default async function DashboardPage() {
         </header>
 
         <div className="container mx-auto px-4 py-10 max-w-6xl">
-          <ProjectGrid projects={projects} currentUserId={dbUserId} />
+          <DashboardClient projects={projects} currentUserId={dbUserId} />
         </div>
       </main>
     </div>

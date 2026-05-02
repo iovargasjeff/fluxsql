@@ -3,6 +3,7 @@ import { Badge } from '@/components/ui/badge'
 import Link from 'next/link'
 import { InviteCollaboratorModal } from './InviteCollaboratorModal'
 import { Crown, Edit3 } from 'lucide-react'
+import { getRelativeDate } from '@/lib/relativeDate'
 
 const GRADIENTS = [
   'from-blue-500/20 via-transparent to-purple-500/20',
@@ -35,20 +36,6 @@ interface ProjectCardProps {
   role: string
   isOwner?: boolean
   members: { id: string; name: string }[]
-}
-
-function getRelativeDate(date: Date | string): string {
-  const now = new Date()
-  const d = new Date(date)
-  const diffMs = now.getTime() - d.getTime()
-  const diffDays = Math.floor(diffMs / (1000 * 60 * 60 * 24))
-  if (diffDays === 0) return 'hoy'
-  if (diffDays === 1) return 'ayer'
-  if (diffDays < 7) return `hace ${diffDays} días`
-  if (diffDays < 14) return 'hace 1 semana'
-  if (diffDays < 30) return `hace ${Math.floor(diffDays / 7)} semanas`
-  if (diffDays < 60) return 'hace 1 mes'
-  return `hace ${Math.floor(diffDays / 30)} meses`
 }
 
 function getAvatarColor(name: string): string {
