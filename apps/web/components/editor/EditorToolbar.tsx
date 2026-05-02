@@ -54,7 +54,7 @@ function ToolbarButton({
         <button
           onClick={onClick}
           disabled={disabled}
-          className={`p-2 rounded-lg transition-colors disabled:opacity-40 disabled:cursor-not-allowed min-w-8 min-h-8 flex items-center justify-center ${colorMap[variant]}`}
+          className={`p-2 rounded-lg transition-colors disabled:opacity-40 disabled:cursor-not-allowed min-w-8 min-h-8 sm:min-w-10 sm:min-h-10 flex items-center justify-center ${colorMap[variant]}`}
         >
           <Icon size={16} />
         </button>

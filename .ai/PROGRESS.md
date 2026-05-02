@@ -4,7 +4,7 @@
 > Sirve como memoria del proyecto: qué se hizo, qué decisiones se tomaron, qué hay que tener en cuenta.
 
 **Última actualización:** 2026-05-02
-**Issues completadas:** 34 / 38
+**Issues completadas:** 35 / 38
 
 ***
 
@@ -15,7 +15,7 @@
 | v0.1 — Setup Base | #1 al #8 | 8/8 | ✅ Completado |
 | v0.2 — Canvas + Editor | #9 al #18 | 10/10 | ✅ Completado |
 | v0.3 — Realtime + Versiones | #19 al #25 | 7/7 | ✅ Completado |
-| v0.4 — UI/UX Polish | #26 al #38 | 9/10 | 🔄 En progreso |
+| v0.4 — UI/UX Polish | #26 al #38 | 10/10 | ✅ Completado |
 
 ***
 
@@ -482,8 +482,19 @@
 **Notas importantes para el futuro:**
 - ✅ `TooltipProvider` debe englobar la superficie donde residen los `TooltipTrigger`s a fin de asegurar la disponibilidad de contexto para todos los componentes de Tooltip de shadcn.
 
-### ⬜ Issue #35 — Responsive tablet 768px+
-**Branch:** `feat/issue-35-responsive` | **Completada:** —
+### ✅ Issue #35 — Responsive tablet 768px+
+**Branch:** `feat/issue-35-responsive`
+**Completada:** 2026-05-02
+
+**Lo que se hizo:**
+- Creado hook `useIsTablet` en `EditorLayout.tsx` interceptando dimensiones de ventana vía `window.matchMedia('(max-width: 1024px)')`.
+- Desplegado estado interno `showEditor` que gobierna un toggle interactivo tipo flotante para el despliegue del panel de código SQL en vistas compactas.
+- Re-diseñada la renderización en el Grid layout permitiendo ocultar un panel para maximizar el componente `<Canvas>` permitiendo un espacio útil del 100%.
+- Aplicados lineamientos semánticos sobre `ToolbarButton` agregando tamaño táctil `min-w-10 min-h-10` en breakpoints menores como `sm`.
+
+**Notas importantes para el futuro:**
+- ✅ Inicializar hooks atados a variables de `window` en valor `false` durante la carga Server-Side previene CLS, evitando parpadeos bruscos para el usuario.
+- ✅ Cuando se usa renderizado dinámico en cuadrículas compartidas, deshabilitar un panel e integrar lógica de grid/bloques aísla su comportamiento evitando deformaciones inesperadas de las proporciones.
 
 ### ⬜ Issue #36 — Onboarding tour (primera vez)
 **Branch:** `feat/issue-36-onboarding` | **Completada:** —
