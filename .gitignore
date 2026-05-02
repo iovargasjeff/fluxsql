@@ -12,6 +12,11 @@ dist/
 # Turborepo
 .turbo/
 
+# Playwright — auth session & test artifacts
+.playwright/
+apps/web/playwright-report/
+apps/web/test-results/
+
 # Variables de entorno (¡CRÍTICO PARA SUPABASE!)
 .env
 .env.*.local
