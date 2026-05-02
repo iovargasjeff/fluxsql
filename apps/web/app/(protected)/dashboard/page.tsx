@@ -1,10 +1,24 @@
 import { getProjectsByUser } from '@/actions/projects/list'
-import { ProjectList } from '@/components/dashboard/ProjectList'
+import { ProjectGrid } from '@/components/dashboard/ProjectGrid'
 import { logoutAction } from '@/actions/auth/logout'
 import { Button } from '@/components/ui/button'
 import { LogOut, DatabaseZap } from 'lucide-react'
+import { createClient } from '@/lib/supabase/server'
+import { db } from '@/lib/db'
+import { users } from '@/lib/db/schema'
+import { eq } from 'drizzle-orm'
 
 export default async function DashboardPage() {
+  const supabase = await createClient()
+  const { data: { user } } = await supabase.auth.getUser()
+
+  // Fetch dbUser id for ownership comparison
+  let dbUserId = ''
+  if (user) {
+    const [dbUser] = await db.select({ id: users.id }).from(users).where(eq(users.authId, user.id)).limit(1)
+    dbUserId = dbUser?.id ?? ''
+  }
+
   const projects = await getProjectsByUser()
 
   return (
@@ -27,7 +41,7 @@ export default async function DashboardPage() {
       </header>
 
       <main className="container mx-auto px-4 py-10 max-w-6xl">
-        <ProjectList projects={projects} />
+        <ProjectGrid projects={projects} currentUserId={dbUserId} />
       </main>
     </div>
   )

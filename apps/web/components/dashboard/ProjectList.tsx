@@ -10,6 +10,7 @@ interface ProjectData {
     name: string
     description: string | null
     updatedAt: Date
+    ownerId: string
   }
   role: string
 }
