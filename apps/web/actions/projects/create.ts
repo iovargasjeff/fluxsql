@@ -10,13 +10,16 @@ import { eq } from 'drizzle-orm'
 const CreateProjectSchema = z.object({
   name: z.string().min(1, "El nombre es obligatorio").max(50, "Máximo 50 caracteres"),
   description: z.string().max(200, "Máximo 200 caracteres").optional(),
+  tags: z.array(z.string()).optional(),
 })
 
 export async function createProjectAction(formData: FormData) {
   const name = formData.get('name') as string
   const description = formData.get('description') as string
+  let tags: string[] = []
+  try { tags = JSON.parse(formData.get('tags') as string ?? '[]') } catch { tags = [] }
 
-  const result = CreateProjectSchema.safeParse({ name, description })
+  const result = CreateProjectSchema.safeParse({ name, description, tags })
   if (!result.success) {
     return { error: result.error.issues[0].message }
   }
@@ -40,6 +43,7 @@ export async function createProjectAction(formData: FormData) {
         name: result.data.name,
         description: result.data.description || null,
         ownerId: dbUser.id,
+        tags: result.data.tags ?? [],
       }).returning()
 
       await tx.insert(collaborators).values({

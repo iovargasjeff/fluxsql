@@ -10,6 +10,7 @@ interface ProjectData {
     description: string | null
     updatedAt: Date
     ownerId: string
+    tags?: string[] | null
   }
   role: string
   members?: { id: string; name: string }[]
@@ -54,6 +55,7 @@ export function ProjectGrid({ projects, currentUserId, onCreateProject }: Projec
             role={role}
             isOwner={project.ownerId === currentUserId}
             members={members ?? []}
+            tags={project.tags ?? []}
           />
         ))}
         

@@ -8,11 +8,13 @@ import { Textarea } from '@/components/ui/textarea'
 import { Label } from '@/components/ui/label'
 import { createProjectAction } from '@/actions/projects/create'
 import { Plus } from 'lucide-react'
+import { TagInput } from '@/components/ui/TagInput'
 
 export function CreateProjectModal() {
   const [open, setOpen] = useState(false)
   const [error, setError] = useState<string | null>(null)
   const [isPending, setIsPending] = useState(false)
+  const [tags, setTags] = useState<string[]>([])
 
   async function handleSubmit(e: React.FormEvent<HTMLFormElement>) {
     e.preventDefault()
@@ -20,6 +22,8 @@ export function CreateProjectModal() {
     setError(null)
 
     const formData = new FormData(e.currentTarget)
+    // append tags as JSON
+    formData.set('tags', JSON.stringify(tags))
     const result = await createProjectAction(formData)
 
     if (result?.error) {
@@ -28,6 +32,7 @@ export function CreateProjectModal() {
     } else {
       setOpen(false)
       setIsPending(false)
+      setTags([])
     }
   }
 
@@ -68,6 +73,12 @@ export function CreateProjectModal() {
               className="bg-[#0A0F1E] border-[#1E2A45] focus-visible:ring-[#1A6CF6] focus-visible:border-[#1A6CF6] text-white resize-none"
               rows={3}
             />
+          </div>
+          <div className="space-y-2">
+            <Label className="text-[#94A3B8] font-medium">
+              Tags <span style={{ color: '#6B7280' }}>(opcional)</span>
+            </Label>
+            <TagInput value={tags} onChange={setTags} />
           </div>
           {error && (
             <div className="bg-red-900/20 border border-red-900/50 p-3 rounded-md">

@@ -4,6 +4,7 @@ import Link from 'next/link'
 import { InviteCollaboratorModal } from './InviteCollaboratorModal'
 import { Crown, Edit3 } from 'lucide-react'
 import { getRelativeDate } from '@/lib/relativeDate'
+import { getTagColor } from '@/components/ui/TagInput'
 
 const GRADIENTS = [
   'from-blue-500/20 via-transparent to-purple-500/20',
@@ -36,6 +37,7 @@ interface ProjectCardProps {
   role: string
   isOwner?: boolean
   members: { id: string; name: string }[]
+  tags?: string[]
 }
 
 function getAvatarColor(name: string): string {
@@ -89,7 +91,7 @@ function CollaboratorAvatars({ members }: { members: { id: string, name: string 
   )
 }
 
-export function ProjectCard({ project, role, isOwner = false, members }: ProjectCardProps) {
+export function ProjectCard({ project, role, isOwner = false, members, tags }: ProjectCardProps) {
   return (
     <Link href={`/editor/${project.id}`} className="block h-full">
       <Card className="h-full flex flex-col bg-[#111827] border-[#1E2A45] text-[#E2E8F0] hover:border-[#1A6CF6] hover:shadow-lg hover:shadow-[#1A6CF6]/10 transition-all duration-200 group cursor-pointer hover:-translate-y-1 overflow-hidden">
@@ -138,6 +140,27 @@ export function ProjectCard({ project, role, isOwner = false, members }: Project
               {isOwner ? 'Propietario' : 'Editor'}
             </span>
           </div>
+          {/* Tags */}
+          {tags && tags.length > 0 && (
+            <div className="flex flex-wrap gap-1 mt-2">
+              {tags.slice(0, 2).map(tag => (
+                <span key={tag} className="text-xs px-2 py-0.5 rounded-full"
+                  style={{
+                    backgroundColor: getTagColor(tag) + '22',
+                    color: getTagColor(tag),
+                    border: `1px solid ${getTagColor(tag)}33`,
+                  }}>
+                  {tag}
+                </span>
+              ))}
+              {tags.length > 2 && (
+                <span className="text-xs px-2 py-0.5 rounded-full"
+                  style={{ backgroundColor: '#1E2A45', color: '#6B7280' }}>
+                  +{tags.length - 2}
+                </span>
+              )}
+            </div>
+          )}
         </CardContent>
 
         <CardFooter className="pt-3 mt-auto w-full">
