@@ -4,7 +4,7 @@
 > Sirve como memoria del proyecto: qué se hizo, qué decisiones se tomaron, qué hay que tener en cuenta.
 
 **Última actualización:** 2026-05-02
-**Issues completadas:** 38 / 38 🏆
+**Issues completadas:** 39 / 40 🏆
 
 ***
 
@@ -14,8 +14,8 @@
 |---|---|---|---|
 | v0.1 — Setup Base | #1 al #8 | 8/8 | ✅ Completado |
 | v0.2 — Canvas + Editor | #9 al #18 | 10/10 | ✅ Completado |
-| v0.3 — Realtime + Versiones | #19 al #25 | 7/7 | ✅ Completado |
 | v0.4 — UI/UX Polish | #26 al #38 | 13/13 | ✅ Completado 🏆 |
+| v0.5 — Auth & UX Redesign | #39 al #40 | 2/2 | ✅ Completado 🏆 |
 
 ***
 
@@ -546,6 +546,29 @@
 
 Todas las 13 issues del milestone v0.4 han sido implementadas y committeadas exitosamente.
 El proyecto FluxSQL está listo para revisión académica y despliegue en producción.
+
+***
+
+## Milestone v0.5 — Auth & UX Redesign
+
+### ✅ Issue #39 — Rediseño Auth: Vista Unificada Login + Registro (Split Layout)
+**Branch:** `feat/issue-39-auth-redesign`
+**Completada:** 2026-05-02
+
+**Lo que se hizo:**
+- Creado `AuthView.tsx` con dual column layout.
+- Modificados `login/page.tsx` y `register/page.tsx`.
+
+### ✅ Issue #40 — Rediseño Landing Page: Tipografía + Hero + Secciones Modernas
+**Branch:** `feat/issue-40-landing-redesign`
+**Completada:** 2026-05-02
+
+**Lo que se hizo:**
+- Corregido el bug de la tipografía "Times New Roman" inyectando la fuente `Inter` nativa en `layout.tsx` y configurando `@theme { --font-sans: var(--font-inter) }` dentro de `globals.css` (específico para Tailwind v4).
+- Rediseñada completamente la landing page (`page.tsx`) en componentes server-side modulares.
+- Creado `<HeroSection>` incluyendo H1 animado y simulación de diagrama ER flotante usando `<motion.div>` intercalado con `svg` dibujado inline.
+- Añadidos `<HowItWorks>` y un refinado `<FeaturesSection>` implementando un sistema de grid de alta fidelidad con acentos neon azul y violeta.
+- Integrados `<Navbar>`, `<BottomCTA>` y `<Footer>` ajustándose a los requerimientos visuales del tema oscuro de DBCanvas.
 
 ***
 

@@ -1,96 +1,52 @@
-import { Code2, Users, GitBranch, Share2, FileCode, Zap, LucideIcon } from 'lucide-react'
-
-const iconMap: Record<string, LucideIcon> = {
-  Code2,
-  Users,
-  GitBranch,
-  Share2,
-  FileCode,
-  Zap,
-}
+import { Zap, Network, Link2, Share2 } from 'lucide-react';
 
 const features = [
   {
-    icon: 'Code2',
-    color: '#1A6CF6',
-    title: 'SQL → Diagrama al instante',
-    desc: 'Pega cualquier CREATE TABLE y el canvas genera el diagrama ER en tiempo real.',
+    title: "Tiempo real",
+    icon: <Zap className="w-6 h-6" />,
+    description: "Cambios reflejados instantáneamente en el canvas."
   },
   {
-    icon: 'Users',
-    color: '#10B981',
-    title: 'Colaboración en tiempo real',
-    desc: 'Invita a tu equipo y trabajen juntos. Ven cursores y cambios al instante.',
+    title: "Autolayout inteligente",
+    icon: <Network className="w-6 h-6" />,
+    description: "Organización automática de nodos y relaciones."
   },
   {
-    icon: 'GitBranch',
-    color: '#8B5CF6',
-    title: 'Control de versiones',
-    desc: 'Guarda snapshots con mensaje y restaura el estado anterior si algo sale mal.',
+    title: "Relaciones automáticas",
+    icon: <Link2 className="w-6 h-6" />,
+    description: "Detecta FKs y dibuja flechas automáticamente."
   },
   {
-    icon: 'Share2',
-    color: '#F59E0B',
-    title: 'Compartir sin registro',
-    desc: 'Genera un link público para que tu profesor vea el esquema sin crear cuenta.',
-  },
-  {
-    icon: 'FileCode',
-    color: '#EF4444',
-    title: 'Exportar a Mermaid',
-    desc: 'Copia la sintaxis erDiagram con un clic y pégala en tu README.md.',
-  },
-  {
-    icon: 'Zap',
-    color: '#06B6D4',
-    title: 'Monaco Editor integrado',
-    desc: 'El mismo editor de VS Code en el browser, con resaltado SQL y autocompletado.',
-  },
-]
+    title: "Exportación fácil",
+    icon: <Share2 className="w-6 h-6" />,
+    description: "Exporta como PNG, SVG o comparte enlace público."
+  }
+];
 
-export function FeaturesSection() {
+export default function FeaturesSection() {
   return (
-    <section className="py-20 px-4 bg-[#0D1117]">
-      <div className="max-w-5xl mx-auto">
-        {/* Header */}
-        <div className="text-center mb-4">
-          <span className="text-[#1A6CF6] text-sm font-medium uppercase tracking-wider">
-            Todo lo que necesitas
-          </span>
-        </div>
-        <h2 className="text-3xl sm:text-4xl font-bold text-white text-center mb-4">
-          Diseñado para estudiantes de bases de datos
-        </h2>
-        <p className="text-[#9CA3AF] text-lg max-w-2xl mx-auto text-center">
-          Desde el primer CREATE TABLE hasta la presentación final, DBCanvas te acompaña en cada paso del proyecto.
-        </p>
-
-        {/* Feature cards grid */}
-        <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-6 mt-12">
-          {features.map((feature) => {
-            const Icon = iconMap[feature.icon]
-            return (
-              <div
-                key={feature.title}
-                className="p-6 bg-[#111827] rounded-xl border border-[#1E2A45] hover:border-[#2A3A55] transition-all duration-200 group"
-                style={{ transition: 'transform 0.2s ease, box-shadow 0.2s ease, border-color 0.2s ease' }}
-              >
-                {/* Icon */}
-                <div
-                  className="w-10 h-10 rounded-lg flex items-center justify-center mb-4"
-                  style={{ backgroundColor: `${feature.color}20` }}
-                >
-                  <Icon size={20} style={{ color: feature.color }} />
-                </div>
-
-                {/* Content */}
-                <h3 className="text-white font-semibold mb-2">{feature.title}</h3>
-                <p className="text-[#6B7280] text-sm leading-relaxed">{feature.desc}</p>
+    <section className="py-24 px-6" id="caracteristicas">
+      <div className="max-w-7xl mx-auto">
+        <h2 className="text-3xl font-bold text-center mb-16">Características principales</h2>
+        
+        <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-6">
+          {features.map((feat) => (
+            <div 
+              key={feat.title}
+              className="bg-[#0F1A2E] border border-[#1E2A45] rounded-2xl p-6 hover:border-[#1A6CF6]/50 transition-colors duration-200"
+            >
+              <div className="bg-[#1A6CF6]/10 text-[#1A6CF6] p-3 rounded-xl w-fit mb-6">
+                {feat.icon}
               </div>
-            )
-          })}
+              
+              <h3 className="text-lg font-bold mb-3">{feat.title}</h3>
+              <p className="text-slate-400 text-sm leading-relaxed">
+                {feat.description}
+              </p>
+            </div>
+          ))}
         </div>
       </div>
     </section>
-  )
+  );
 }

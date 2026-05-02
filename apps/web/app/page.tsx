@@ -1,24 +1,19 @@
-import { createClient } from '@/lib/supabase/server'
-import { redirect } from 'next/navigation'
-import { HeroSection } from '@/components/landing/HeroSection'
-import { FeaturesSection } from '@/components/landing/FeaturesSection'
-import { PricingSection } from '@/components/landing/PricingSection'
-import { Footer } from '@/components/landing/Footer'
+import Navbar from "@/components/landing/Navbar";
+import HeroSection from "@/components/landing/HeroSection";
+import HowItWorks from "@/components/landing/HowItWorks";
+import FeaturesSection from "@/components/landing/FeaturesSection";
+import BottomCTA from "@/components/landing/BottomCTA";
+import Footer from "@/components/landing/Footer";
 
-export default async function HomePage() {
-  const supabase = await createClient()
-  const { data: { user } } = await supabase.auth.getUser()
-
-  if (user) {
-    redirect('/dashboard')
-  }
-
+export default function HomePage() {
   return (
-    <main className="min-h-screen bg-[#0A0F1E]">
+    <main className="min-h-screen bg-[#0B1120] text-white overflow-x-hidden">
+      <Navbar />
       <HeroSection />
+      <HowItWorks />
       <FeaturesSection />
-      <PricingSection />
+      <BottomCTA />
       <Footer />
     </main>
-  )
+  );
 }
