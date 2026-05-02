@@ -4,7 +4,7 @@
 > Sirve como memoria del proyecto: qué se hizo, qué decisiones se tomaron, qué hay que tener en cuenta.
 
 **Última actualización:** 2026-05-02
-**Issues completadas:** 30 / 38
+**Issues completadas:** 31 / 38
 
 ***
 
@@ -15,7 +15,7 @@
 | v0.1 — Setup Base | #1 al #8 | 8/8 | ✅ Completado |
 | v0.2 — Canvas + Editor | #9 al #18 | 10/10 | ✅ Completado |
 | v0.3 — Realtime + Versiones | #19 al #25 | 7/7 | ✅ Completado |
-| v0.4 — UI/UX Polish | #26 al #38 | 5/10 | 🔄 En progreso |
+| v0.4 — UI/UX Polish | #26 al #38 | 6/10 | 🔄 En progreso |
 
 ***
 
@@ -436,8 +436,15 @@
 - Cada card usa `iconMap` con componentes de lucide-react instanciados dinámicamente desde nombre string.
 - Importado y añadido debajo de `<HeroSection />` en `app/page.tsx`.
 
-### ⬜ Issue #31 — Landing pricing + footer
-**Branch:** `feat/issue-31-landing-pricing` | **Completada:** —
+### ✅ Issue #31 — Landing pricing open source + footer
+**Branch:** `feat/issue-31-landing-pricing`
+**Completada:** 2026-05-02
+
+**Lo que se hizo:**
+- Creado `PricingSection.tsx` con tarjeta Plan Estudiante, lista de 8 features, CTA a `/register` y link al repo GitHub.
+- Creado `Footer.tsx` con logo DBCanvas, nav links (login, register, GitHub) y créditos © 2026 con Jefferson, Kiara y UPT.
+- Fix: `lucide-react@1.14.0` no exporta `Github` — reemplazado por `GitFork` como ícono equivalente.
+- Añadidos ambos componentes al final del `main` en `page.tsx`.
 
 ### ⬜ Issue #32 — Dashboard en grid con tarjetas
 **Branch:** `feat/issue-32-dashboard-grid` | **Completada:** —
