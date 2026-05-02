@@ -7,6 +7,7 @@ import { saveDiagramAction } from '@/actions/diagrams/save'
 import { useEditorStore } from '@/store/useEditorStore'
 import { ExportMenu } from './ExportMenu'
 import { CommitModal } from './CommitModal'
+import { VersionHistorySheet } from './VersionHistorySheet'
 
 interface EditorToolbarProps {
   projectId: string
@@ -53,6 +54,7 @@ export function EditorToolbar({ projectId, projectName, dialect = 'postgresql' }
       <span className="ml-auto text-xs text-[#94A3B8] font-mono hidden md:block">{projectId}</span>
       
       <div className="flex items-center gap-2 ml-4">
+        <VersionHistorySheet projectId={projectId} />
         <CommitModal projectId={projectId} />
         <button
           onClick={handleSave}

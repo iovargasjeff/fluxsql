@@ -4,7 +4,7 @@
 > Sirve como memoria del proyecto: qué se hizo, qué decisiones se tomaron, qué hay que tener en cuenta.
 
 **Última actualización:** 2026-05-02
-**Issues completadas:** 22 / 38
+**Issues completadas:** 23 / 38
 
 ***
 
@@ -14,7 +14,7 @@
 |---|---|---|---|
 | v0.1 — Setup Base | #1 al #8 | 8/8 | ✅ Completado |
 | v0.2 — Canvas + Editor | #9 al #18 | 10/10 | ✅ Completado |
-| v0.3 — Realtime + Versiones | #19 al #28 | 4/10 | 🔄 En progreso |
+| v0.3 — Realtime + Versiones | #19 al #28 | 5/10 | 🔄 En progreso |
 | v0.4 — UI/UX Polish | #29 al #38 | 0/10 | ⬜ Pendiente |
 
 ***
@@ -350,8 +350,16 @@
 - Implementado cliente `<CommitModal>` empleando primitivas UI conectadas con `useReactFlow` que extraen de forma síncrona el `toObject()` empaquetando todo el estado visual en un click.
 - Botón Commit acoplado al `EditorToolbar` a lado de las opciones convencionales de Guardado/Exportación.
 
-### ⬜ Issue #23 — Historial de versiones (sidebar)
-**Branch:** `feat/issue-23-version-history` | **Completada:** —
+### ✅ Issue #23 — Historial de versiones (sidebar)
+**Branch:** `feat/issue-23-version-history`
+**Completada:** 2026-05-02
+
+**Lo que se hizo:**
+- Creada Server Action `listVersionsAction` iterando sobre los joins (`diagramVersions` \+ `users` limitando la inyección al mínimo omitiendo `flowJson`) para obtener listas ligeras con perfiles integrados.
+- Instalado Shadcn Sheet (`sheet.tsx`) y Date-Fns para inyectar interfaces de exploración elegantes.
+- Diseñado un `<VersionHistorySheet>` desplegable hacia el lado derecho integrando Skeletons dinámicos e iconografía interactiva.
+- Fechas transformadas al español natural utilizando `formatDistanceToNow` y la locale `es`.
+- Embebido orgánicamente dentro del Toolbar principal del Editor.
 
 ### ⬜ Issue #24 — Restaurar versión anterior
 **Branch:** `feat/issue-24-version-restore` | **Completada:** —
