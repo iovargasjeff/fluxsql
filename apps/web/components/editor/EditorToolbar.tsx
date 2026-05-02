@@ -5,6 +5,7 @@ import { useReactFlow } from '@xyflow/react'
 import { toast } from 'sonner'
 import { saveDiagramAction } from '@/actions/diagrams/save'
 import { useEditorStore } from '@/store/useEditorStore'
+import { ExportMenu } from './ExportMenu'
 
 interface EditorToolbarProps {
   projectId: string
@@ -58,12 +59,7 @@ export function EditorToolbar({ projectId, projectName, dialect = 'postgresql' }
         >
           {saving ? 'Guardando...' : 'Guardar'}
         </button>
-        <button
-          onClick={() => toast.info('La exportación estará disponible pronto')}
-          className="bg-[#1E2A45] hover:bg-[#2A3B5D] text-white px-3 py-1.5 rounded text-sm transition-colors border border-[#2A3B5D]"
-        >
-          Exportar
-        </button>
+        <ExportMenu projectName={projectName} />
       </div>
     </header>
   )

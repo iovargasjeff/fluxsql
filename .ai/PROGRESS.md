@@ -4,7 +4,7 @@
 > Sirve como memoria del proyecto: qué se hizo, qué decisiones se tomaron, qué hay que tener en cuenta.
 
 **Última actualización:** 2026-05-02
-**Issues completadas:** 16 / 38
+**Issues completadas:** 17 / 38
 
 ***
 
@@ -13,7 +13,7 @@
 | Milestone | Issues | Completadas | Estado |
 |---|---|---|---|
 | v0.1 — Setup Base | #1 al #8 | 8/8 | ✅ Completado |
-| v0.2 — Canvas + Editor | #9 al #18 | 8/10 | 🔄 En progreso |
+| v0.2 — Canvas + Editor | #9 al #18 | 9/10 | 🔄 En progreso |
 | v0.3 — Realtime + Versiones | #19 al #28 | 0/10 | ⬜ Pendiente |
 | v0.4 — UI/UX Polish | #29 al #38 | 0/10 | ⬜ Pendiente |
 
@@ -286,8 +286,15 @@
 - Adaptada ruta principal del Editor (`app/(protected)/editor/[projectId]/page.tsx`) a la carga asíncrona de datos desde Postgres utilizando `loadDiagramAction()`.
 - Se pasaron `initialSQL`, `initialNodes`, y `initialEdges` al layout principal (`EditorLayout.tsx`), asegurando la hidratación y restauración total tanto de código como visual al momento de renderizar por primera vez usando Hooks de estado.
 
-### ⬜ Issue #17 — Export PNG y SVG
-**Branch:** `feat/issue-17-export-images` | **Completada:** —
+### ✅ Issue #17 — Export PNG y SVG
+**Branch:** `feat/issue-17-export-images`
+**Completada:** 2026-05-02
+
+**Lo que se hizo:**
+- Creado `ExportMenu.tsx` (desplegable en toolbar) utilizando `html-to-image` para capturar el layout activo del diagrama desde React Flow.
+- Implementado el ajuste automático del enfoque visual con `fitView()` y 250ms de pausa para renderizado fluido de la captura que garantiza un lienzo legible completo.
+- Filtrado automático con el parámetro `filter` eliminando controles de React Flow y herramientas visuales superpuestas para que solo se incluyan nodos y relaciones.
+- Reemplazado botón estático de la barra de control (`EditorToolbar.tsx`) por este nuevo sub-módulo funcional asegurando la renderización condicionada al contenido.
 
 ### ⬜ Issue #18 — Export Mermaid .mmd
 **Branch:** `feat/issue-18-export-mermaid` | **Completada:** —
